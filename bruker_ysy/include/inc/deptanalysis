@@ -1,0 +1,231 @@
+/********************-*-C++-*-****************************************
+*
+* $Source: /sc/CvsTree/sc/gen/src/prg/makeau/inc/deptanalysis,v $
+*
+* Copyright (c) 1995
+* BRUKER BIOSPIN GMBH
+* D-76287 Rheinstetten, Germany
+*
+* All Rights Reserved
+*
+*
+* $Id: deptanalysis,v 1.5 2011/09/30 14:44:57 wem Exp $
+*
+********************************************************************
+*/
+/*****	loading of arrays for dept analysis			*******/
+/*	depthead must be included, too.
+	For this macro the following strings must contain
+	path:		path to broad band peak picking file
+	dept90:		path to dept 90 peak picking file
+	dept135:	path to dept 135 peak picking file	      */
+#define DEBUG 0
+#if DEBUG
+#   define DEBMSG(msg, ...) printf(msg, ## __VA_ARGS__)
+#else
+#   define DEBMSG(msg, ...)
+#endif
+{
+    int loop;
+    isave = readPeakList(path);
+    if (isave <= 0)
+    {
+	Proc_err(DEF_ERR_OPT, "%s %s:\n%s",
+		 "error reading peaklist.xml from", path, getPeakError());
+	STOP;
+    }
+    for (loop=0; loop < DEPTSZ && loop < isave; loop++)
+    {
+	BB[loop] = getPeakFreqPPM(loop);
+	FO[loop] = getPeakAddress(loop);
+    }
+    freePeakList();
+
+    is90 = readPeakList(dept90);
+    if (is90 < 0)
+    {
+	Proc_err(DEF_ERR_OPT, "%s %s:\n%s",
+		 "error reading peaklist.xml from", dept90, getPeakError());
+	STOP;
+    }
+    pmax=0;
+    for (loop=0; loop < DEPTSZ && loop < is90; loop++)
+    {
+	D90[loop] = getPeakFreqPPM(loop);
+	I90[loop] = getPeakIntensity(loop);
+	if(I90[loop] > pmax)
+	    pmax = I90[loop];
+    }
+    freePeakList();
+
+    is135 = readPeakList(dept135);
+    if (is135 < 0)
+    {
+	Proc_err(DEF_ERR_OPT, "%s %s:\n%s",
+		 "error reading peaklist.xml from", dept135, getPeakError());
+	STOP;
+    }
+    pmax1 = 0;
+    for (loop=0; loop < DEPTSZ && loop < is135; loop++)
+    {
+	D135[loop] = getPeakFreqPPM(loop);
+	I135[loop] = getPeakIntensity(loop);
+	if(I135[loop] > pmax1)
+	    pmax1 = I135[loop];
+    }
+    freePeakList();
+    DEBMSG("pmax1= %f, fakt = %f\n", pmax1, fakt);
+}
+/* analyse dept spectra */
+{
+    int	i90,	i135,	f135,	f90, j;
+    float	delta,	diff1 = 0, diff2 = 0;
+    int il90 = 0, il135 = 0;
+
+    for(i = 0; i < isave; i++)
+    {
+	if (i == 0)
+	    diff1 = 0.2;
+	else
+	    diff1 = BB[i-1] - BB[i];
+
+	if (i == isave - 1)
+	    diff2 = 0.2;
+	else
+	    diff2 = BB[i] - BB[i+1];
+	/* use half of the smallest difference between adjacent peaks */
+	if (diff1 < diff2)
+	    delta = diff1/2;
+	else
+	    delta = diff2/2;
+	if (delta > 0.2)
+	    delta = 0.2;
+	f90 = 0;
+	f135 = 0;
+	i90 = 0;
+	i135 = 0;
+	for (j = il135; j < is135; j++)
+	{
+	    if ((D135[j] + delta) < BB[i])
+		break;
+	    if ((fabs(BB[i]-D135[j]) < delta) && (fabs(I135[j]) > pmax1 * fakt))
+	    {
+		f135 = 1;
+		i135 = j;
+		il135 = j + 1;
+		break;
+	    }
+	}
+	for (j = il90; j < is90; j++)
+	{
+	    if ((D90[j] + delta) < BB[i])
+		break;
+	    if ((fabs(BB[i]-D90[j]) < delta) && (fabs(I90[j]) > pmax*fakt))
+	    {
+		f90 = 1;
+		i90 = j;
+		il90 = j + 1;
+		break;
+	    }
+	}
+	if (f135 == 1)
+	{
+	    if (I135[i135] < 0)
+	    {
+		M[i] = 'T';
+		DEBMSG("%c: f135[%d] = %f, fBB[%d] = %f\n", M[i], i135, D135[i135], i, BB[i]);
+	    }
+	    else if (f90 == 1)
+	    {
+		M[i] = 'D';
+		DEBMSG("%c: f135[%d] = %f, f90[%d] = %f, fBB[%d] = %f\n",
+		       M[i], i135, D135[i135], i90, D90[i90], i, BB[i]);
+	    }
+	    else
+	    {
+		M[i] = 'Q';
+		DEBMSG("%c: f135[%d] = %f, fBB[%d] = %f\n", M[i], i135, D135[i135], i, BB[i]);
+	    }
+	}
+	else if (f90 == 1)
+	{
+	    M[i] = 'U';
+	    DEBMSG("%c: f90[%d] = %f, fBB[%d] = %f\n", M[i], i90, D90[i90], i, BB[i]);
+	}
+	else
+	{
+	    M[i] = 'S';
+	    DEBMSG("%c: fBB[%d] = %f\n", M[i], i, BB[i]);
+	}
+    }
+}
+
+/*****	Clean labels of regions, excluded by region file in lists/scl */
+/*	Before this macro deptanal must be included		      */
+
+{
+    char prosol[64], path2[PATH_MAX];
+
+    (void)sprintf(prosol,"%s.%s",nucleus,solvent);
+    if (getParfileDirForRead(prosol, SCL_DIRS, path2) < 0)
+    {
+	Proc_err(DEF_ERR_OPT, "%s %s: %s", "Solvent file", prosol, path2);
+    }
+    else if ((fptr=fopen(path2,"rt")) == 0)
+    {
+	Proc_err(DEF_ERR_OPT, "%s\n%s", "Cannot open file for reading", path2);
+    }
+    else
+    {
+	float	U[10], L[10];
+	int	loop;
+	int	ilim = 0;
+
+	fgets(a,sizeof(a),fptr);
+	i=1;
+	for (loop=0; loop < 10; loop++)
+	{
+	    if(fscanf(fptr,"%f %f",&U[i],&L[i])<2)
+	    {
+		ilim=i-1;
+		break;
+	    }
+	    i++;
+	}
+	fclose(fptr);
+	i=1;
+	for (loop=0; loop < isave; loop++)
+	{
+	    int loop2;
+	    int ic1 = 1;
+
+	    for (loop2=0; loop2 < ilim; loop2++)
+	    {
+		if (BB[i] < L[ic1] && BB[i] > U[ic1+1])
+		    M[i] = ' ';
+		ic1++;
+	    }
+	    i++;
+	}
+    }
+}
+
+/*******************************************************************
+** Write result of dept analysis into file
+* for peak picking on plot.
+********************************************************************
+*/
+
+{
+    readPeakList(path);
+
+    for (i=0; i<isave; i++)
+    {
+	char annotation[64];
+
+	sprintf(annotation, "%.2f %c", getPeakFreqPPM(i), M[i]);
+	setPeakAnnotation(i, annotation);
+    }
+
+    freePeakList();
+}

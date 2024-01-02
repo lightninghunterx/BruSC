@@ -1,0 +1,95 @@
+;*******************************************************************
+;
+; Copyright (c) 2018
+; Bruker BioSpin MRI GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+; 
+; NSPECT - non-selective spectroscopy (pulse + acquire)
+;
+;*******************************************************************
+;
+; d0 - TR padding
+
+#include <MRI.include>
+#include <PrepModulesHead.mod>
+#include <acqdec.mod>
+#include <Navigator.mod>
+
+define delay dur1
+"dur1=d1-20u"    ;compensates for 20u delay (including de) in acqdec
+define loopcounter lds = {$PVM_DummyScans}
+
+define list<loopcounter> avList = {$AverageList}
+define list<frequency>   freqTx = {$ACQ_O1_list}
+define list<frequency>   freqRx = {$ACQ_O1B_list}
+       
+#define slicegrad     grad_ramp<magnet_coord>{SliceGrad[]}
+#define slicerephgrad grad_ramp<magnet_coord>{SliceRephGrad[]}
+
+INIT_DEVICES
+
+             subr SatTransInit()
+        0u        rpp0
+;--------------------- start of the main loop ----------------------
+start, 	          UPDATE_DYN_PARS_30u
+
+;----------------------- preparation modules -----------------------
+             subr TriggerSlice()
+             subr FatSup()
+             subr Noe()
+             subr WsOvs(ph1, ph1)
+             subr FovSat()
+             subr SatTrans()
+
+       10u        freqTx:f1
+       10u        freqRx(receive):f1
+
+        d4        slicegrad
+       (p0:sp0    ph0):f1
+        d2        grad_off
+
+        d3        slicerephgrad
+        d2        grad_off
+
+      dur1
+     
+             subr acqdec(ph1,ph0,AQ_(job0))           ;lasts aqq+20u
+
+        1m        ADC_END_(job0)
+
+   if(PVM_NavOnOff == On)
+   {
+       20u	  switch_realtime_tables           ;close to nav acq
+             subr NavigatorGlobal(sp1, ph0, ph1, ph0)
+   }
+
+        d0
+
+                  "lds =lds - 1"             ;this makes dummy scans
+   if "lds>=0" goto start
+
+        0u	  ipp0
+
+        0u        freqRx.inc
+        0u        SliceGrad.inc
+        0u        SliceRephGrad.inc
+
+    lo to start times NSLICES
+
+
+    lo to start times avList
+        0u        avList.inc
+        0u	  rpp0
+
+             subr SatTransInc()
+
+     lo to start times NR
+
+SETUP_GOTO(start)
+
+exit
+
+ph0  = 0 2 1 3
+ph1  = 0

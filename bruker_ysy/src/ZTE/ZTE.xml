@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2006-2017 Bruker BioSpin MRI GmbH. All Rights Reserved.
+$Id$
+Description: Layout of routine parameter editor for method ZTE.
+-->
+<cardStack
+    xmlns="http://www.bruker.de/mri/generated/xsd/card"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <parameterCard displayName="Routine">
+        <column>
+            <parameter name="PVM_RepetitionTime"/>
+            <parameter name="PVM_NAverages"/>
+            <parameter name="PVM_NRepetitions"/>
+            <parameter name="PVM_ScanTimeStr"/>
+            <textLine text=""/>
+            <parameter name="MinimumTR"/>
+            <parameter name="MinimumUnderSampling"/>
+            <parameter name="NPro"/>
+            <parameter name="ProUnderSampling"/>
+            <parameter name="PVM_EffSWh"/>
+            <parameter name="ExcPul.Flipangle" displayName="Flip Angle"/>
+        </column>
+        <column>
+            <parameter name="PVM_SPackArrSliceOrient[0]" displayName="Slice Orientation"/>
+            <parameter name="PVM_SPackArrReadOrient[0]" displayName="Read Orientation"/>
+            <parameter name="PVM_Matrix"/>
+            <parameter name="PVM_Fov"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="Contrast">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_RepetitionTime"/>
+                <parameter name="ExcPul.Flipangle" displayName="Flip Angle"/>
+                <parameter name="PVM_DummyScans"/>
+                <parameter name="PVM_DummyScansDur"/>
+            </column>
+            <column>
+                <parameter name="PVM_FatSupOnOff"/>
+                <parameter name="PVM_FovSatOnOff"/>
+                <parameter name="PVM_TriggerModule"/>
+                <parameter name="PVM_SegmentationOnOff"/>
+                <parameter name="PVM_EvolutionOnOff"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/FatSup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FovSat.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Trigg.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Segmentation.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Evolution.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Resolution">
+        <xi:include href="file:///XML_INCLUDE_DIR/Resolution.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Encoding.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Geometry">
+        <column>
+            <parameter name="PVM_MajSliceOri"/>
+	    <parameter name="PVM_AtsBedPositionMode" />
+            <parameter name="PVM_AtsChangeRefPos" />
+        </column>
+        <column>
+            <parameter name="PVM_SPackArrSliceOrient[0]" displayName="Slice Orientation"/>
+            <parameter name="PVM_SPackArrReadOrient[0]" displayName="Read Orientation"/>
+            <parameter name="PVM_SPackArrReadOffset[0]" displayName="Read Offset"/>
+            <parameter name="PVM_SPackArrPhase1Offset[0]" displayName="Phase Offset"/>
+            <parameter name="PVM_SPackArrSliceOffset[0]" displayName="Slice Offset"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="Sequence">
+        <parameterCard displayName="Main">
+            <column>
+                <textLine text=""/>
+                <parameter name="PVM_EffSWh"/>
+                <parameter name="ExcPulseAuto">
+                    <parameterCard displayName="Pulse Details">
+                        <column>
+                            <parameter name="ExcPul"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <parameter name="Spoiling"/>
+                <parameter name="Reorder"/>
+                <parameter name="GradOff"/>
+                <parameter name="RecoOnline"/>
+            </column>
+            <column>
+                <parameter name="Method"/>
+                <parameter name="PVM_AcquisitionTime"/>
+                <parameter name="MissingData"/>
+                <parameter name="ReadGrad"/>
+                <parameter name="GradDutyCycle"/>
+                <textLine text="Acquisition Details">
+                    <parameterCard displayName="Acquisition Details">
+                        <column>
+                            <parameter name="UseOrigin"/>
+                            <parameter name="HalfAcquisition"/>
+                            <parameter name="AcqDelay"/>
+                            <parameter name="OverSampling"/>
+                        </column>
+                    </parameterCard>
+                </textLine>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Freq1.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Tx1.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Setup">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_RefPowMod1"/>
+                <parameter name="PVM_RefPowCh1"/>
+                <textLine text=""/>
+                <parameter name="PVM_DeriveGains" displayName="Calc. Pulse Ampl."/>
+                <parameter name="ExcPulAmpl.patt" displayName="Exc. Pulse Attenuation" widget="slider"/>
+		<textLine text=""/>
+		<textLine text=""/>
+		<textLine text=""/>
+		<textLine text=""/>
+		<parameter name="PVM_RgJob" />
+		<parameter name="PVM_RgValue" widget="slider" />
+            </column>
+            <column>
+                <textLine text=""/>
+                <parameter name="PVM_RefPowStat1"/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <parameter name="ExcPulAmpl.ppow" displayName="Exc. Pulse Power"/>
+                <parameter name="ExcPulAmpl.pampl" displayName="Exc. Pulse Amplitude"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/FatSupSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FovSatSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/mapshim.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Shim.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Result" cardType="adjresult">
+        <column>
+            <parameter name="ACQ_jobs[0].receiverGain" displayName="Receiver Gain"/>
+        </column>
+        <column>
+            <textLine text=""/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="System">
+        <xi:include href="file:///XML_INCLUDE_DIR/CoilSelection.xml"/>
+    </parameterCard>
+    <xi:include href="file:///XML_INCLUDE_DIR/RecoRegridN.xml"/>
+    <parameterCard displayName="Special Reconstruction Parameters" cardType="recoprocessing">
+        <column>
+            <parameter name="RecoSkip"/>
+            <parameter name="RecoUseOrigin"/>
+            <parameter name="RecoScaleOrigin"/>
+        </column>
+        <column>
+            <parameter name="T2Estimate"/>
+            <parameter name="RecoT2Filter"/>
+            <parameter name="B0Estimate"/>
+            <parameter name="RecoOffResonance"/>
+        </column>
+    </parameterCard>
+    <xi:include href="file:///XML_INCLUDE_DIR/RecoParameters.xml"/>
+    <xi:include href="file:///XML_INCLUDE_DIR/CompressedSensing.xml"/>
+</cardStack>

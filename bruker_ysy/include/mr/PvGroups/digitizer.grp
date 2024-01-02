@@ -1,0 +1,32 @@
+/* **************************************************************
+ * $Source$
+ *
+ * Copyright (c) 2916
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+pargroup
+{
+  PVM_DigAutSet;
+  PVM_DigQuad;           /* controls AQ_mod  */
+  PVM_DigFilter;         /* controls DSPFIRM */
+  PVM_DigRes;            /* displays digitizer resolutin in bits */
+  PVM_DigDw;             /* controls SW_h    */
+  PVM_DigSw;             /* controls SW_h    */
+  PVM_DigNp;             /* controls ACQ_size[0] */
+  PVM_DigShift;          /* displays group delay in pts. */
+  PVM_DigShiftDbl;       /* displays group delay in pts as non-integer value. */
+  PVM_DigGroupDel;       /* displays group delay in ms */
+  PVM_DigDur;            /* accurate duration of acq interval */
+  PVM_DigEndDelMin;      /* delay to end of scan: min DEOSC for scan shift 0 */
+  PVM_DigEndDelOpt;      /* delay to end of scan: assures opt DEOSC and scan shift
+			                      handling. */
+}DigitizerPars;
+
+

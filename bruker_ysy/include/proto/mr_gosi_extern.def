@@ -1,0 +1,7 @@
+extern YesNo parameter GOSI_prefer_raw_data overlay dataset modality MR;
+extern double parameter GOSI_noise overlay dataset modality MR;
+extern double parameter GOSI_RepetitionTime overlay dataset modality MR;
+extern double parameter GOSI_ExperimentDurationFactor overlay dataset modality MR;
+extern GOSI_WAVEFORM_TYPE parameter GOSI_WaveForms[15] overlay dataset modality MR;
+extern GOSI_SCAN_DESCRIPTION_TYPE parameter GOSI_ScanDescription overlay dataset modality MR;
+extern int parameter GOSI_ScanData[] overlay dataset modality MR;

@@ -1,0 +1,376 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2016
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+
+#include "common/PvTypes/method.fmt"
+
+
+units REFG_TYPE
+{
+  RefAtt "dB";
+};
+
+format REFG_TYPE
+{
+  RefAtt "%g";
+};
+
+
+
+units PV_PULSE_PROPERTIES
+{
+  bandWidthFactor "Hz.ms";
+  attenuationCorr "dB";
+  rephaseFactor   "%";
+};
+
+format PV_PULSE_PROPERTIES
+{
+  bandWidthFactor "%.1f";
+  attenuationCorr "%.1f";
+  rephaseFactor   "%.1f";
+};
+
+
+units PV_PULSE
+{
+  length       "ms";
+  bandWidth    "Hz";
+  attenuation  "dB";
+  flipAngle    "deg";
+};
+
+format PV_PULSE
+{
+  length       "%.4f";
+  bandWidth    "%.1f";
+  attenuation  "%.1f";
+  flipAngle    "%.1f";
+};
+
+
+
+
+
+units PVM_PULSE
+{
+  PulseLength "ms";
+  Bandwidth   "Hz";
+  Attenuation "dB";
+  FlipAngle   "deg";
+
+};
+
+
+format PVM_PULSE
+{
+  PulseLength "%.4f";
+  Bandwidth   "%.0f";
+  Attenuation "%.3f";
+  FlipAngle   "%.0f";
+};
+
+
+
+units PVM_PULSE_PROPERTIES
+{
+  BandwidthFactor "Hz.ms";
+  RephaseFactor   "%";
+  MinPulseLength  "ms";
+};
+
+
+format PVM_PULSE_PROPERTIES
+{
+  BandwidthFactor "%f";
+  IntegralRatio   "%f";
+  RephaseFactor   "%f";
+  MinPulseLength  "%f";
+};
+
+
+units PVM_PULSE_CORRECTIONS
+{
+  Bandwidth   "%";
+  Attenuation "dB";
+  Rephase     "%";
+
+};
+
+
+format PVM_PULSE_CORRECTIONS
+{
+  Bandwidth   "%.2f";
+  Attenuation "%.3f";
+  Rephase     "%.2f";
+
+};
+
+
+/*
+ *  format definitions for single pulse parameters of type
+ *  PVM_RF_PULSE_TYPE
+ */
+
+attributes PVM_RF_PULSE_TYPE
+{
+  Length
+  {
+    format  "%.4f";
+    units   "ms";
+    minimum 0.0004 outofrange nearestval;
+    maximum 10000.0 outofrange nearestval;
+  };
+
+  Bandwidth
+  {
+    format  "%.1f";
+    units   "Hz";
+    minimum  0.001 outofrange nearestval;
+  };
+
+  FlipAngle
+  {
+    format  "%.1f";
+    units   "deg";
+    minimum  0.001 outofrange nearestval;
+  };
+
+  Attenuation
+  {
+    format  "%.01f";
+    units   "dB";
+    minimum  -40.0 outofrange nearestval;
+    maximum  150.0 outofrange nearestval;
+  };
+
+  TrimBandwidth 
+  {
+    format "%.2f";
+    units  "%";
+    minimum  50.0 outofrange nearestval;
+    maximum  150.0 outofrange nearestval;
+  };
+
+  TrimAttenuation
+  {
+    format "%.2f";
+    units  "dB";
+    minimum  -6.0 outofrange nearestval;
+    maximum   6.0 outofrange nearestval;
+  };
+
+  TrimRephase
+  {
+    format "%.2f";
+    units  "%";
+    minimum  50.0 outofrange nearestval;
+    maximum  150.0 outofrange nearestval;
+  };
+
+  BandwidthFactor
+  {
+    format "%f";
+    units  "Hz.ms";
+    minimum  50.0 outofrange nearestval;
+  };
+
+  RephaseFactor
+  {
+    format "%f";
+    units  "%";
+    minimum  -100.0 outofrange nearestval;
+    maximum  100.0 outofrange nearestval;
+  };
+
+  MinPulseLength
+  {
+    format "%f";
+    units  "ms";
+    minimum  0.0004 outofrange nearestval;
+  };
+
+};
+
+
+attributes  PVM_RF_PULSE
+{
+  Length
+  {
+    format  "%.4f";
+    units   "ms";
+    minimum 0.0004 outofrange nearestval;
+    maximum 10000.0 outofrange nearestval;
+  };
+
+  Bandwidth
+  {
+    format  "%.1f";
+    units   "Hz";
+    minimum  0.001 outofrange nearestval;
+  };
+
+  Flipangle
+  {
+    format  "%.1f";
+    units   "deg";
+    minimum  0.001 outofrange nearestval;
+  };
+
+  Sharpness
+  {
+    minimum  1 outofrange nearestval;
+    maximum  10 outofrange nearestval;
+  };
+
+  /*
+  Flatness
+  {
+    minimum  1 outofrange nearestval;
+    maximum  10 outofrange nearestval;
+  };
+  */
+
+  Bwfac
+  {
+    format "%f";
+    units  "Hz.ms";
+    minimum  50.0 outofrange nearestval;
+  };
+
+  Sint
+  {
+    format "%f";
+    minimum   0.0001 outofrange nearestval;
+    maximum   1.0 outofrange nearestval;
+  };
+
+  Pint
+  {
+    format "%f";
+    minimum   0.0001 outofrange nearestval;
+    maximum   1.0 outofrange nearestval;
+  };
+
+
+  Type
+  {
+    minimum  0 outofrange nearestval;
+    maximum  2 outofrange nearestval;
+  };
+
+  Rpfac
+  {
+    format "%f";
+    units  "%";
+    minimum  0.0 outofrange nearestval;
+    maximum  100.0 outofrange nearestval;
+  };
+
+  Pow
+  {
+    format  "%.6f";
+    units   "W";
+    minimum  0.0 outofrange nearestval;
+    maximum  10000.0 outofrange nearestval;
+  };
+  
+};
+
+
+
+attributes PVM_RF_PULSE_AMP_TYPE
+{
+  ppow
+  {
+    format "%.6f";
+    units  "W";
+    minimum  0.0 outofrange nearestval;
+    maximum  10000.0 outofrange nearestval;
+  };
+
+  pampl
+  {
+    format "%.6f";
+    units "V";
+    minimum  0.0 outofrange nearestval;
+    maximum  5000.0 outofrange nearestval;
+  };
+
+  patt
+  {
+    format "%.3f";
+    units "dB";
+    minimum  -40.0 outofrange nearestval;
+    maximum   70.0 outofrange nearestval;
+  };
+};
+
+attributes PVM_SPOILER_TYPE
+{
+  automatic
+  {
+    display_name "AutoSetting";
+    short_description "Automatic setting of spoiler attributes based on fixed Spoiling value.";    
+  };
+
+  spoil
+  {
+    display_name "Spoiling";
+    short_description "Spoiling efficiency in cycles/image_element (e.g. pixel or slice thickness for read or slice spoiler).";
+    format "%.2f"; 
+    units  "{cycles}";
+    minimum 0 outofrange nearestval;
+    maximum 1000 outofrange nearestval; 
+  };
+  
+  dur
+  {
+    display_name "Duration";
+    short_description "Duration of the spoiler gradient.";
+    format "%.2f";
+    units  "ms";  
+    minimum 0 outofrange nearestval;
+    maximum 50 outofrange nearestval; 
+  };
+  
+  ampl
+  {
+    display_name "Amplitude";
+    short_description "Amplitude of the spoiler gradient.";
+    format "%.2f";
+    units  "%"; 
+    minimum 0 outofrange nearestval;
+    maximum 100 outofrange nearestval; 
+  };
+  
+};
+
+attributes REFPOW_TYPE
+{
+  RefPow
+  {
+    format "%.8f";
+    units "W";
+  };
+};
+
+attributes PVM_RG_TYPE
+{
+  title {display_name "Title";};
+  dvalue {display_name "Gain";};
+};
+/****************************************************************/
+/*	E N D   O F   F I L E					*/
+/****************************************************************/

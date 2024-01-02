@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ $Source$
+
+ Copyright (c) 2011 - 2017
+
+ Bruker BioSpin AG
+ MRI Division
+ CH-8117 Fällanden, Switzerland
+
+ All Rights Reserved
+
+ $Id$
+-->
+<cardStack
+    xmlns="http://www.bruker.de/mri/generated/xsd/card"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <parameterCard displayName="Routine">
+        <column>
+            <parameter name="PVM_EchoTime"/>
+            <parameter name="PVM_RepetitionTime"/>
+            <parameter name="PVM_NAverages"/>
+            <parameter name="AverageMode"/>
+            <parameter name="PVM_NRepetitions"/>
+            <parameter name="PVM_ScanTimeStr"/>
+            <textLine text=""/>
+            <parameter name="ExcPulse1.Flipangle" displayName="Flip Angle Excitation"/>
+            <parameter name="RefPulse1.Flipangle" displayName="Flip Angle Refocusing"/>
+            <parameter name="PVM_Nucleus1Enum" displayName="Nucleus 1"/>
+            <parameter name="PVM_Nucleus2Enum" displayName="Nucleus 2"/>
+        </column>
+        <column>
+            <arrayGroup sizeParameterName="PVM_NSPacks" displayName="Slice Package" indexCouplingKey="BRUKER_SLICEPACKAGE">
+                <parameter name="PVM_SPackArrNSlices"/>
+                <parameter name="PVM_SPackArrSliceOrient"/>
+                <parameter name="PVM_SPackArrReadOrient" displayName="1st Enc. Orientation"/>
+            </arrayGroup>
+            <parameter name="PVM_SliceThick"/>
+            <parameter name="PVM_Matrix"/>
+            <parameter name="PVM_Fov"/>
+            <parameter name="LocalizationMode"/>
+            <parameter name="PVM_VoxArrSize[0]" displayName="Voxel Size"/>
+            <parameter name="PVM_VoxArrPosition[0]" displayName="Voxel Position"/>
+            <parameter name="PVM_VoxArrCSDisplacement" displayName="Spatial Fat-Water Shift"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="Spectroscopy">
+        <xi:include href="file:///XML_INCLUDE_DIR/Spec1D.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Preparation">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_DummyScans"/>
+                <parameter name="PVM_DummyScansDur"/>
+            </column>
+            <column>
+                <parameter name="PVM_WsMode" displayName="Water Suppression"/>
+                <parameter name="PVM_FatSupOnOff"/>
+                <parameter name="PVM_FovSatOnOff"/>
+                <parameter name="PVM_OvsOnOff"/>
+                <parameter name="PVM_DecOnOff"/>
+                <parameter name="PVM_NoeOnOff"/>
+                <parameter name="PVM_TriggerModule"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Suppression.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FatSup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FovSat.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Ovs.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Decoupling.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Noe.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Trigg.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Optimization">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_NavOnOff"/>
+            </column>
+            <column>
+                <parameter name="RetroFrequencyLock_OnOff"/>
+                <parameter name="PVM_DriftCompYesNo"/>
+                <parameter name="PVM_DriftCompUpdateTime"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Navigator.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Resolution">
+        <parameterCard displayName="Main">
+            <column>
+                <textLine text=""/>
+                <parameter name="PVM_SpatDimEnum" widget="radiobuttons"/>
+                <parameter name="PVM_IsotropicFovRes"/>
+                <parameter name="PVM_SliceThick"/>
+            </column>
+            <column>
+                <textLine style="inline_array" text="Read\tPhase\tSlice"/>
+                <parameter name="PVM_Matrix"/>
+                <parameter name="PVM_Fov"/>
+                <parameter name="PVM_SpatResol"/>
+                <parameter name="PVM_AntiAlias"/>
+                <parameter name="EffResolution"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Encoding0.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Geometry">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_SliceThick"/>
+                <parameter name="PVM_ObjOrderScheme"/>
+                <parameter name="PVM_MajSliceOri"/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <parameter name="PVM_Fov"/>
+                <parameter name="PVM_AntiAlias"/>
+                <textLine text=""/>
+		<parameter name="PVM_AtsBedPositionMode"/>
+ 		<parameter name="PVM_AtsChangeRefPos"/>
+                <textLine text=""/>
+                <parameter name="PVM_VoxArrSize[0]" displayName="Voxel Size"/>
+                <parameter name="PVM_VoxArrPosition[0]" displayName="Voxel Position"/>
+                <parameter name="PVM_VoxArrCSDisplacement" displayName="Spatial Fat-Water Shift"/>
+            </column>
+            <column>
+                <arrayGroup displayName="Slice Package" sizeParameterName="PVM_NSPacks" indexCouplingKey="BRUKER_SLICEPACKAGE">
+                    <parameter name="PVM_SPackArrNSlices"/>
+                    <parameter name="PVM_SPackArrSliceOrient"/>
+                    <parameter name="PVM_SPackArrReadOrient"/>
+                    <parameter name="PVM_SPackArrReadOffset"/>
+                    <parameter name="PVM_SPackArrPhase1Offset"/>
+                    <parameter name="PVM_SPackArrSliceOffset"/>
+                    <parameter name="PVM_SPackArrSliceGapMode"/>
+                    <parameter name="PVM_SPackArrSliceGap"/>
+                    <parameter name="PVM_SPackArrSliceDistance"/>
+                </arrayGroup>
+            </column>
+        </parameterCard>
+    </parameterCard>
+    <parameterCard displayName="Sequence">
+        <parameterCard displayName="Main">
+            <column>
+                <textLine text=""/>
+                <parameter name="ExcPulse1Enum" displayName="Excitation Pulse">
+                    <parameterCard displayName="Pulse Details">
+                        <column>
+                            <parameter name="ExcPulse1"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <parameter name="RefPulse1Enum" displayName="Refocusing Pulse">
+                    <parameterCard displayName="Pulse Details">
+                        <column>
+                            <parameter name="RefPulse1"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <parameter name="Spoiler.automatic" displayName="Auto Repetition Spoiler">
+                    <parameterCard displayName="Reptition Spoiler Details">
+                        <column>
+                            <parameter name="Spoiler"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <parameter name="RefSpoiler.automatic" displayName="Auto Echo Spoiler">
+                    <parameterCard displayName="Echo Spoiler Details">
+                        <column>
+                            <parameter name="RefSpoiler"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <textLine text=""/>
+                <parameter name="PVM_ArrayPhaseAdjMode"/>
+            </column>
+            <column>
+                <parameter name="Method"/>
+                <parameter name="EncGradDur"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Freq1.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Tx1.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Freq2.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Tx2.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Setup">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_RefPowMod1"/>
+                <parameter name="PVM_RefPowCh1"/>
+                <textLine text=""/>
+                <parameter name="PVM_DeriveGains" displayName="Calc. Pulse Ampl."/>
+                <parameter name="ExcPulse1Ampl.patt" displayName="Exc. Pulse Attenuation" widget="slider"/>
+                <textLine text=""/>
+                <parameter name="RefPulse1Ampl.patt" displayName="Ref. Pulse Attenuation" widget="slider"/>
+                <textLine text=""/>
+                <textLine text=""/>
+	    <parameter name="PVM_RgJob" />
+	    <parameter name="PVM_RgValue" widget="slider" />
+            </column>
+            <column>
+                <textLine text=""/>
+                <parameter name="PVM_RefPowStat1"/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <parameter name="ExcPulse1Ampl.ppow" displayName="Exc. Pulse Power"/>
+                <parameter name="ExcPulse1Ampl.pampl" displayName="Exc. Pulse Amplitude"/>
+                <parameter name="RefPulse1Ampl.ppow" displayName="Ref. Pulse Power"/>
+                <parameter name="RefPulse1Ampl.pampl" displayName="Ref. Pulse Amplitude"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/SuppressionSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FatSupSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FovSatSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/OvsSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/mapshim.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Shim.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Result" cardType="adjresult">
+        <column>
+            <textLine text="Receiver Gain Result:"/>
+            <textLine text="Rx Array Phases Result:"/>
+            <textLine text=""/>
+        </column>
+        <column>
+            <parameter name="ACQ_jobs[0].receiverGain" displayName="Receiver Gain"/>
+            <parameter name="PVM_ArrayPhase"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="System">
+        <xi:include href="file:///XML_INCLUDE_DIR/CoilSelection.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Reconstruction" cardType="reco">
+        <column>
+            <parameter name="RetroFrequencyLock_OnOff"/>
+            <textLine text=""/>
+
+            <parameter name="KFiltering"/>
+        </column>
+        <column>
+            <textLine text=""/>
+        </column>
+    </parameterCard>
+    <xi:include href="file:///XML_INCLUDE_DIR/RecoParameters.xml"/>
+</cardStack>

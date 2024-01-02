@@ -1,0 +1,90 @@
+;************************************************************************* 
+; $Source$
+;
+; Copyright (c) 2007-2008
+; Bruker BioSpin MRI GmbH
+; D-76275 Ettlingen, Germany
+;
+; $Id$ 
+;
+
+#include <MRI.include>
+#include <PrepModulesHead.mod>
+#include <ISIS_Head.mod>
+
+define list<loopcounter> avList={$AverageList}
+
+define delay dur4
+"dur4=d4-de"
+
+define list<frequency> freqExc={$ACQ_O2_list}
+define list<frequency> freqRx={$ACQ_O1B_list}
+
+INIT_DEVICES
+
+
+        subr SatTransInit()
+
+start,	1m freqRx(receive):f1
+
+        subr TriggerSlice()
+        subr SatTrans()
+        subr Noe()
+        subr ADDOVS(ph0)
+        subr WsOvs(ph0,ph0)
+
+if (IsisAdjInvPulses == Yes) 
+{
+     if (IsisManAdjustment == InvPulse1) 
+     {
+	inv_r
+	noinv_p
+	noinv_s
+     }
+     if (IsisManAdjustment == InvPulse2) 
+     {
+	noinv_r
+	inv_p
+	noinv_s
+     }
+     if (IsisManAdjustment == InvPulse3) 
+     {
+	noinv_r
+	noinv_p
+	inv_s
+     }
+}
+else
+{
+	noinv_r
+	noinv_p
+	noinv_s
+}
+
+; READOUT of prepared signal
+
+	d4 grad_off		freqExc:f1
+        d13			freqExc.inc
+	(p0:sp0		ph3):f1		; excitation pulse
+	d6 grad_ramp{Isis_Gr3,Isis_Gp3,Isis_Gs3}
+	d4 grad_off
+	dur4 grad_ramp{Isis_Gr4,Isis_Gp4,Isis_Gs4}
+	ADC_INIT_(job0, ph0,ph4)
+	AQ_(job0)	ADC_START_(job0)
+	d4  grad_off
+	1m	ADC_END_(job0)
+	d0		ipp3
+	0u		ipp4
+	lo to start times  avList
+	0u     avList.inc
+	0u     rpp0
+	0u     rpp3
+	0u     rpp4
+        subr SatTransInc()
+        lo to start times NR
+SETUP_GOTO(start)
+exit
+
+ph0 =  0
+ph3 =  0 2
+ph4 =  0 2

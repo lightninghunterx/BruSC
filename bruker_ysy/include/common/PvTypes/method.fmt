@@ -1,0 +1,25 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2019
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+#ifndef CMN_METHOD_FMT
+#define CMN_METHOD_FMT
+enum_attributes ATS_POS_POLICY
+{
+  display_name ATS_POS_CURRENT      "Current";
+  display_name ATS_POS_IMAGE_CENTER "Image Center";
+  display_name ATS_POS_REFERENCE    "Reference";
+};
+
+
+#endif

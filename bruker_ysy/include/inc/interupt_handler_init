@@ -1,0 +1,43 @@
+/*** ^^A -*-C++-*- **********************************************/
+/*	interupt_handler_init	04.06.2013			*/
+/****************************************************************/
+/*
+$Id: interupt_handler_init,v 1.4 2013/10/29 13:19:41 gsc Exp $
+*/
+{
+#ifdef	HAS_UNIX_FEATURES
+    (void)sigemptyset(&IntHndl_interuptmask);
+    (void)sigaddset(&IntHndl_interuptmask, SIGUSR1);
+    (void)sigprocmask(SIG_BLOCK, &IntHndl_interuptmask, 0);
+#endif	/* HAS_UNIX_FEATURES */
+/* enable loop termination with cpr command 'AU_program_name stop' */
+    if (i_argc > 2)
+    {
+	size_t idx;
+	char *MyOwnName = i_argv[0];
+
+	struct Au_interupt_handler_items *intPt;
+
+	if ((MyOwnName=strrchr(i_argv[0],'/')) != 0)
+	    MyOwnName++;
+
+#define IHSIZE sizeof(Au_IntHandler)/sizeof(Au_IntHandler[0])
+
+	for (idx=0; idx < IHSIZE; idx++)
+	{
+	    intPt = &Au_IntHandler[idx];
+	    if (intPt->ident == 0)
+		break;
+	    if (strcmp(i_argv[2],intPt->ident) == 0)
+	    {
+		char cprcmd[PATH_MAX];
+		/* send 'stop' signal to myself */
+		snprintf(cprcmd,sizeof(cprcmd),"int m %s %s %s",MyOwnName,intPt->ident,MyOwnName);
+		CPR_exec(cprcmd, CONT_EX);
+		Exit_unimar(NORM_TERM);
+	    }
+	}
+#undef IHSIZE
+    }
+    Setint (AU_program_interupt_handler);
+}

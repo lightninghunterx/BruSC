@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2006-2017 Bruker BioSpin MRI GmbH. All Rights Reserved.
+$Id$
+Description: Layout of routine parameter editor for method AdjRefPowX.
+-->
+<cardStack
+    xmlns="http://www.bruker.de/mri/generated/xsd/card"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <parameterCard displayName="Adj Setting" >
+        <column>
+            <parameter name="NExcSteps" displayName="Experiments"/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="ExcDurList"/>
+            <textLine text=""/>
+            <parameter name="ExcDurRange" displayName="Range" />
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="RecoMode" displayName="Reconstruction"/>
+            <textLine text=""/>
+        </column>
+        <column>
+	   <parameter name="ScanMode"/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="ExcPowList"/>
+            <textLine text=""/>
+            <parameter name="ExcPowRange" displayName="Range"/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="PkRange"/>
+            <textLine text=""/>
+            <parameter name="SkipSubAdjustments"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="Routine">
+        <column>
+            <parameter name="PVM_RepetitionTime"/>
+            <parameter name="PVM_NAverages"/>
+            <parameter name="PVM_ScanTimeStr"/>
+            <textLine text=""/>
+            <parameter name="PVM_Nucleus1Enum" displayName="Nucleus 1"/>
+            <parameter name="PVM_Nucleus2Enum" displayName="Nucleus 2"/>
+        </column>
+        <column>
+            <parameter name="PVM_SpecMatrix[0]" displayName="Acq. Points"/>
+            <parameter name="PVM_SpecSWH[0]" displayName="Acq. Bandwidth"/>
+            <parameter name="PVM_WsOnOff"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="Spectro">
+        <xi:include href="file:///XML_INCLUDE_DIR/Spec1D.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Preparation">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_DummyScans"/>
+                <parameter name="PVM_DummyScansDur"/>
+            </column>
+            <column>
+                <parameter name="PVM_WsMode" displayName="Water Suppression"/>
+                <parameter name="PVM_FatSupOnOff"/>
+                <parameter name="PVM_FovSatOnOff"/>
+                <parameter name="PVM_DecOnOff"/>
+                <parameter name="PVM_NoeOnOff"/>
+                <parameter name="PVM_TriggerModule"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Suppression.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FatSup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FovSat.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Decoupling.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Noe.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Trigg.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Sequence">
+        <parameterCard displayName="Main">
+            <column>
+                <textLine text=""/>
+                <parameter name="ExcPulseEnum" displayName="Excitation Pulse">
+                    <parameterCard displayName="Pulse Details">
+                        <column>
+                            <parameter name="ExcPulse"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <textLine text=""/>
+                <parameter name="AutoEchoTimer"/>
+                <parameter name="PVM_EchoTime"/>
+                <textLine text=""/>
+                <parameter name="PVM_ArrayPhaseAdjMode"/>
+                <textLine text=""/>
+                <parameter name="SliceSelOnOff"/>
+                <arrayGroup displayName="Slice Number"
+			    sizeParameterName="SliceNum"
+			    indexCouplingKey="Slice">
+		  <parameter name="SliceOri"/>
+		  <parameter name="SliceThick"/>
+		  <parameter name="SliceOffset"/>
+                </arrayGroup>
+		  <parameter name="SliceRephDur" displayName="Rephase Duration"/>
+            </column>
+            <column>
+                <parameter name="Method"/>
+                <textLine text=""/>
+                <parameter name="PVM_AtsBedPositionMode"/>
+                <parameter name="PVM_AtsChangeRefPos"/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <parameter name="PVM_DriftCompYesNo">
+                  <xi:include href="file:///XML_INCLUDE_DIR/DriftComp.xml"/>
+                </parameter>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Freq1.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Tx1.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Freq2.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Tx2.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Setup">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_RefPowMod1"/>
+                <parameter name="PVM_RefPowCh1"/>
+                <textLine text=""/>
+                <parameter name="O1" displayName="Offset Frequency" widget="slider"/>
+                <textLine text=""/>
+                <parameter name="PVM_DeriveGains" displayName="Calc. Pulse Ampl."/>
+                <textLine text=""/>
+                <textLine text=""/>
+		<parameter name="PVM_RgJob" />
+		<parameter name="PVM_RgValue" widget="slider" />
+            </column>
+            <column>
+                <textLine text=""/>
+                <parameter name="PVM_RefPowStat1"/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <textLine text=""/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/FatSupSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/FovSatSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/SuppressionSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/mapshim.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Shim.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Result" cardType="adjresult">
+       <column>
+            <parameter name="PVM_StudyRefPow.Stat"
+		       displayName="Reference Power Status"/>
+            <parameter name="PVM_StudyRefPow.RefPow"
+		       displayName="Reference Power"/>
+            <textLine text=""/>
+	    <parameter name="PVM_AdjRefPowXDur" displayName="Pulse Length"/>
+        </column>
+         <column>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+	    <parameter name="PVM_AdjRefPowXPwr"/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="ACQ_jobs[0].receiverGain" displayName="Receiver Gain"/>
+            <parameter name="PVM_ArrayPhase"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="System">
+        <xi:include href="file:///XML_INCLUDE_DIR/CoilSelection.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Reco" cardType="reco">
+        <column>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="RecoMode" displayName="Reconstruction"/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="SearchMode"/>
+        </column>
+        <column>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="PkRange"/>
+            <textLine text=""/>
+            <textLine text=""/>
+            <parameter name="SearchDurRange"/>
+            <parameter name="SearchVoltRange"/>
+            <parameter name="SearchPowRange"/>
+        </column>
+    </parameterCard>
+    <xi:include href="file:///XML_INCLUDE_DIR/RecoParameters.xml"/>
+</cardStack>

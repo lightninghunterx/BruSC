@@ -1,0 +1,123 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2016
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+/* part of Trajectory toolbox
+
+  Define parameter groups.
+
+*/
+
+pargroup
+{
+  PVM_TrajExcPulseEnum;
+  PVM_TrajExcPulse;
+  PVM_TrajRfcPulseEnum;
+  PVM_TrajRfcPulse;
+}
+attributes
+{
+  display_name "RF Pulses";
+} TrajRFPulses;
+
+pargroup
+{
+  PVM_TrajGradMode;
+  PVM_TrajDims;
+  PVM_TrajAxes;
+  PVM_TrajAxis;
+  PVM_TrajInterleaves;
+  PVM_TrajLocs;
+  PVM_TrajSteps;
+  PVM_TrajIntAll;
+  PVM_TrajSamples;
+  PVM_TrajJunk;
+  PVM_TrajResultSize;
+  PVM_TrajCallAcqUpdate;
+  PVM_TrajKUnits;
+  PVM_TrajKScale;
+  PVM_TrajDwGrad;
+  PVM_TrajDwAcq;
+  PVM_TrajGradR;
+  PVM_TrajGradP;
+  PVM_TrajGradS;
+  PVM_TrajGradX;
+  PVM_TrajGradY;
+  PVM_TrajGradZ;
+  PVM_TrajGradOrient;
+  PVM_TrajKx;
+  PVM_TrajKy;
+  PVM_TrajKz;
+  PVM_TrajBx;
+  PVM_TrajBy;
+  PVM_TrajBz;
+  PVM_TrajShape1Name;
+  PVM_TrajShape2Name;
+  PVM_TrajShape3Name;
+  PVM_TrajInt1rName;
+  PVM_TrajInt1pName;
+  PVM_TrajInt1sName;
+  PVM_TrajInt2rName;
+  PVM_TrajInt2pName;
+  PVM_TrajInt2sName;
+  PVM_TrajInt3rName;
+  PVM_TrajInt3pName;
+  PVM_TrajInt3sName;
+  PVM_TrajIntScale;
+  PVM_TrajNAdjPars;
+  PVM_TrajAdjPars;
+  PVM_TrajAdjContext;
+  PVM_TrajGeoExtent;
+  PVM_TrajGeoObj;
+  PVM_TrajGeoCub;
+}
+attributes
+{
+  display_name "Details";
+} TrajDetails;
+
+pargroup
+{
+  PVM_TrajRecoMode;
+  PVM_TrajDebug;
+}
+attributes
+{
+  display_name "Trajectory";
+} TrajRecoParameters;
+
+pargroup
+{
+  PVM_TrajIntMode;
+  PVM_TrajDisplayMode;
+  PVM_TrajAdjMode;
+  PVM_TrajRepeatMode;
+  PVM_TrajUpToDate;
+  PVM_TrajAdjStatus;
+  PVM_TrajTrig;
+  PVM_TrajGradSync;
+  PVM_TrajSignalType;
+  TrajRFPulses;
+  PVM_TrajAuto;
+  PVM_TrajSliceThick;
+  PVM_TrajOffset;
+  PVM_TrajSliceDelay;
+  PVM_TrajRepDelay;
+  PVM_TrajAvgs;
+  TrajDetails;
+}
+attributes
+{
+  display_name "Trajectory";
+} TrajParameters;
+

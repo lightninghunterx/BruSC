@@ -1,0 +1,77 @@
+
+pargroup
+{
+  PVM_DwTm;
+  PVM_DwMinTm;
+  PVM_DwExcPulse1Enum;
+  PVM_DwExcPulse1;
+  PVM_DwRfcAdiab;
+  PVM_DwExcPulse1Ampl;
+  PVM_DwRfcPulse1Enum;
+  PVM_DwRfcPulse1;
+  PVM_DwRfcPulse1Ampl;
+  PVM_DwSliceGradDur;
+  PVM_DwSliceGrad; 
+  PVM_DwSliceGradLim;
+  PVM_TeDwSliceSpoilGradDur;
+  PVM_TeDwSliceSpoilGrad;
+  PVM_TeDwSliceSpoilGradLim;
+  PVM_TmDwVarSpoilGrad;
+  PVM_TmDwSliceSpoilGradDur;
+  PVM_TmDwSliceSpoilGrad;
+  PVM_TmDwSliceSpoilGradLim;
+}DW_SliceSelection;
+
+
+pargroup
+{
+  PVM_DwNDiffExp;      
+  PVM_DwBMat;
+  PVM_DwBMatImag;
+  PVM_DwBMatMag;
+  PVM_DwBMatPat;
+  PVM_DwEffBval;
+  PVM_DwGradVec;       
+  PVM_DwGradRead;      
+  PVM_DwGradPhase;     
+  PVM_DwGradSlice;
+  PVM_DwSpDir;
+  PVM_DwSpDir2;
+  PVM_DwPeriods;
+  PVM_DwMinPeriods;
+  PVM_DwPerSep;
+  PVM_DwMinPerSep;
+  PVM_DwGradPulseDelay;
+  PVM_DwGradSepDelay;
+  PVM_DwModDur;
+  PVM_DwModEchDel;
+  PVM_DwEffGradTraj;
+}DiffOutput;
+
+
+pargroup
+{
+  PVM_DiffPrepMode;
+  PVM_DwUsedSliceThick;
+  PVM_DwVisiblePars;
+  PVM_DwDeriveGains;
+  DW_SliceSelection;
+  PVM_DwGradDur;       
+  PVM_DwGradSep;       
+  PVM_DwDirectScale;
+  PVM_DwMeasMode;
+  PVM_DwNDiffDir;      
+  PVM_DwNDiffExpEach;  
+  PVM_DwAoImages;      
+  PVM_DwEnterDiffDir; 
+  PVM_DwDirInput;      
+  PVM_DwDir; 
+  PVM_DwDgSwitch;
+  PVM_DwMaxBval;
+  PVM_DwBvalEach;
+  PVM_DwGradAmp;       
+  PVM_DwGradStr;       
+  PVM_DwEffGradStr;    
+  DiffOutput;
+}Diffusion;
+

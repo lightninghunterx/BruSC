@@ -1,0 +1,269 @@
+/*** ^^A -*-C++-*- **********************************************/
+/*	interupt_handler_init	04.06.2013			*/
+/****************************************************************/
+/*
+$Id: interupt_handler,v 1.5 2013/10/29 13:19:41 gsc Exp $
+*/
+
+#ifndef	HAS_WINDOWS_FEATURES
+#include <signal.h>
+
+static sigset_t IntHndl_interuptmask;
+#endif
+
+/*
+ * Prototypes of functions
+ */
+static int LogPrint(const char* format, ...);
+static int LogPrintLn(const char* format, ...);
+static void enableLogging(const char fname[]);
+static void disableLogging();
+
+static void AU_program_interupt_handler (int argc, char **argv);
+static int WAIT_FOR_UEXTR_MESSAGE(int x);
+static int INT_VAR_STAT(int idx);
+static int INT_VAR_STAT_RESET(int idx);
+static void SET_ADDITIONAL_INTERUPT(const char* ident,int *identvar);
+static void HANDLE_ADDITIONAL_INTERUPTS();
+static void DUMP_INTERUPT_TABLE();
+static void DUMP_INTERUPT_TABLE_ADDR();
+
+/*
+ * GLOBAL Variables
+*/
+static FILE* logFpntr = 0;
+static char logFilePath[PATH_MAX];
+
+static int terminate_loop;
+static int terminate_function;
+static int terminate_program;
+
+static struct Au_interupt_handler_items
+{
+    const char* ident;
+    int *idvar;
+} *intPt,Au_IntHandler[10] =
+{
+    {"stop" , &terminate_loop},
+    {"halt" , &terminate_function},
+    {"quit" , &terminate_program},
+};
+/* */
+#define IHSIZE sizeof(Au_IntHandler)/sizeof(Au_IntHandler[0])
+
+
+
+
+static void enableLogging(const char fname[])
+{
+    if (fname == NULL)
+	return;
+    if ( ! strlen(fname) )
+	return;
+
+    snprintf(logFilePath,sizeof(logFilePath),"%s/%s/%s",PathXWinNMRProg(),PathXWinNMRCurDir(),fname);
+
+    if (logFpntr)
+	fclose(logFpntr);
+
+    logFpntr = fopen(logFilePath,"at");
+}
+
+static void disableLogging()
+{
+    if (logFpntr)
+    {
+	fflush(logFpntr);
+	fclose(logFpntr);
+	logFpntr = 0;
+    }
+}
+
+static int LogPrint(const char* format, ...)
+{
+    int ret = 0;
+    if (logFpntr)
+    {
+	char buffer[4096];
+
+	/* VARARGS */
+	va_list list;
+
+	va_start(list, format);
+	ret = vsnprintf(buffer,sizeof(buffer), format, list);
+	va_end(list);
+
+	fputs(buffer,logFpntr);
+    }
+    return ret;
+}
+
+
+static  int LogPrintLn(const char* format, ...)
+{
+    int ret = 0;
+    if (logFpntr)
+    {
+	char tbuf[128];
+	int  blen;
+	va_list vlist;	/* VARARGS */
+	char buffer[4096];
+	int new_line = 1;
+
+	(void)StrfLocalTimeMillisec(tbuf, sizeof(tbuf), "%d-%H:%M:%S");
+
+	va_start(vlist, format);
+
+	blen = vsnprintf(buffer, sizeof(buffer), format, vlist);
+
+	va_end(vlist);
+
+	if (buffer[blen-1] == '\n')
+	    new_line  = 0;
+	if (buffer[blen-1] == '\r')
+	{
+	    buffer[blen-1] = 0;
+	    new_line  = 0;	    
+	}
+	if (new_line)
+	    fprintf(logFpntr,"%s  %s\n",tbuf,buffer);
+	else
+	    fprintf(logFpntr,"%s  %s",tbuf,buffer);
+
+	fflush(logFpntr);
+    }
+    return ret;
+}
+
+static void AU_program_interupt_handler (int argc, char **argv)
+{
+    char *whoami = 0;
+
+    if ((whoami=strrchr(i_argv[0],'/')) != 0)
+	whoami++;
+    else
+	whoami = i_argv[0]; 
+
+    /* wrong no of args */
+    if (argc < 4)
+	return;
+
+    /* its an AU program */
+    if (strcmp (argv[1], "exec") == 0) /* || strcmp (argv[1], "a.out")) */
+    {
+	size_t idx;
+	
+	/* its not for me */
+	if (strcmp (whoami,argv[3]))
+	    return;
+	if (logFpntr)
+	    LogPrintLn("INTERUPT_HANDLER: argv[2] == %s",argv[2]);
+
+	for (idx=0; idx < IHSIZE; idx++)
+	{
+	    intPt = &Au_IntHandler[idx];
+	    if (intPt->ident == 0)
+		break;
+
+	    if (argv[2] && ! strcmp (argv[2],intPt->ident ))
+	    {
+		if (logFpntr)
+		    LogPrintLn(" => %s found",intPt->ident);
+		if (intPt->ident && intPt->idvar)
+		    (*intPt->idvar)++; 
+	    }
+	}
+	DUMP_INTERUPT_TABLE();	
+    }
+}
+
+
+static void DUMP_INTERUPT_TABLE()
+{
+    size_t idx2;
+    LogPrintLn("INTERUPT_TABLE:\r");
+    for (idx2=0; idx2 < IHSIZE; idx2++)
+    {
+	intPt = &Au_IntHandler[idx2];
+	if (intPt->idvar)
+	    LogPrint("%s=%d ",intPt->ident, *(intPt->idvar));
+    }
+    LogPrint("\n");
+}
+
+static void DUMP_INTERUPT_TABLE_ADDR()
+{
+    size_t idx2;
+    LogPrintLn("INTERUPT_TABLE_ADDR:\r");
+    for (idx2=0; idx2 < IHSIZE; idx2++)
+    {
+	intPt = &Au_IntHandler[idx2];
+	if (intPt->idvar)
+	    LogPrint(" %s==%p ",intPt->ident, intPt->idvar);
+    }
+    LogPrint("\n");
+}
+
+static int INT_VAR_STAT(int idx)
+{
+    intPt = &Au_IntHandler[idx];
+    
+    if (intPt->idvar)
+	return *(intPt->idvar);
+
+    return 0;  
+}
+
+static int INT_VAR_STAT_RESET(int idx)
+{
+    intPt = &Au_IntHandler[idx];
+    
+    if (intPt->idvar)
+    {
+	int ret = *(intPt->idvar);
+	*(intPt->idvar) = 0;
+	return ret;
+    }
+    return 0;  
+}
+static void SET_ADDITIONAL_INTERUPT(const char* ident,int *identvar)
+{
+    size_t idx;
+    for (idx=0; idx < IHSIZE; idx++)
+    {
+	intPt = &Au_IntHandler[idx];
+	if (intPt->ident == 0)
+	{
+	    intPt->ident = ident;
+	    intPt->idvar = identvar;
+	    break;
+	}
+    }
+}
+
+/*
+ * the first three variables are predefined to stop/halt/quit
+ */
+#define BREAK_ON_INTERUPT	if (INT_VAR_STAT(0)) break;
+#define RETURN_ON_INTERUPT	if (INT_VAR_STAT(1))  {return 0;}
+#define EXIT_ON_INTERUPT	if (INT_VAR_STAT(2))  {Exit_unimar(NORM_TERM);}
+
+#define BREAK_ON_STOP_RESET	if (INT_VAR_STAT_RESET(0) == 1) break;
+#define RETURN_ON_HALT_RESET	if (INT_VAR_STAT_RESET(1) == 1)  {return 0;}
+#define EXIT_ON_QUIT_RESET	if (INT_VAR_STAT_RESET(2) == 1)  {Exit_unimar(NORM_TERM);}
+
+
+static int WAIT_FOR_UEXTR_MESSAGE(int x)
+{
+    int ret = 0;
+#ifndef	HAS_WINDOWS_FEATURES
+    (void)sigprocmask(SIG_UNBLOCK, &IntHndl_interuptmask, 0);
+#endif
+    ret = WaitForUextrMessage (x);
+#ifndef	HAS_WINDOWS_FEATURES
+    (void)sigprocmask(SIG_BLOCK, &IntHndl_interuptmask, 0);
+#endif
+    return ret; 
+}
+
+#undef IHSIZE

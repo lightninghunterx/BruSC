@@ -1,0 +1,594 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2016
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+
+#include "mr/PvGroups/spectro.grp"
+#include "mr/PvGroups/epi.grp"
+#include "mr/PvGroups/spiral.grp"
+#include "mr/PvGroups/trajectory.grp"
+#include "mr/PvGroups/diffusion.grp"
+#include "mr/PvGroups/startupShim.grp"
+
+
+pargroup
+{
+  PVM_GradCalConst;
+  PVM_Nucleus1Enum;
+  PVM_Nucleus1;
+  PVM_RefPowMod1;
+  PVM_RefPowCh1;
+  PVM_RefPowStat1;
+  PVM_Nucleus2Enum;
+  PVM_Nucleus2;
+  PVM_RefPowMod2;
+  PVM_RefPowCh2;
+  PVM_RefPowStat2;
+  PVM_Nucleus3Enum;
+  PVM_Nucleus3;
+  PVM_RefPowMod3;
+  PVM_RefPowCh3;
+  PVM_RefPowStat3;
+  PVM_Nucleus4Enum;
+  PVM_Nucleus4;
+  PVM_RefPowMod4;
+  PVM_RefPowCh4;
+  PVM_RefPowStat4;
+  PVM_Nucleus5Enum;
+  PVM_Nucleus5;
+  PVM_RefPowMod5;
+  PVM_RefPowCh5;
+  PVM_RefPowStat5;
+  PVM_Nucleus6Enum;
+  PVM_Nucleus6;
+  PVM_RefPowMod6;
+  PVM_RefPowCh6;
+  PVM_RefPowStat6;
+  PVM_Nucleus7Enum;
+  PVM_Nucleus7;
+  PVM_RefPowMod7;
+  PVM_RefPowCh7;
+  PVM_RefPowStat7;
+  PVM_Nucleus8Enum;
+  PVM_Nucleus8;
+  PVM_RefPowMod8;
+  PVM_RefPowCh8;
+  PVM_RefPowStat8;
+  PVM_FrqRef;
+  PVM_FrqWorkOffset;
+  PVM_FrqWork;
+  PVM_FrqRefPpm;        // on ready scan to be derived
+  PVM_FrqWorkOffsetPpm;
+  PVM_FrqWorkPpm;
+  PVM_NucleiPpmWork;
+
+  PVM_TxCoilScMode1;
+  PVM_TxCoilScMode2;
+  PVM_TxCoilScMode3;
+  PVM_TxCoilScMode4;
+  PVM_TxCoilScMode5;
+  PVM_TxCoilScMode6;
+  PVM_TxCoilScMode7;
+  PVM_TxCoilScMode8;
+  PVM_TxCoilAdjStat1;
+  PVM_TxCoilAdjStat2;
+  PVM_TxCoilAdjStat3;
+  PVM_TxCoilAdjStat4;
+  PVM_TxCoilAdjStat5;
+  PVM_TxCoilAdjStat6;
+  PVM_TxCoilAdjStat7;
+  PVM_TxCoilAdjStat8;
+  PVM_TxCoilAmpScaling1;
+  PVM_TxCoilAmpScaling2;
+  PVM_TxCoilAmpScaling3;
+  PVM_TxCoilAmpScaling4;
+  PVM_TxCoilAmpScaling5;
+  PVM_TxCoilAmpScaling6;
+  PVM_TxCoilAmpScaling7;
+  PVM_TxCoilAmpScaling8;
+  PVM_TxCoilPhaseOffset1;
+  PVM_TxCoilPhaseOffset2;
+  PVM_TxCoilPhaseOffset3;
+  PVM_TxCoilPhaseOffset4;
+  PVM_TxCoilPhaseOffset5;
+  PVM_TxCoilPhaseOffset6;
+  PVM_TxCoilPhaseOffset7;
+  PVM_TxCoilPhaseOffset8;
+
+
+
+} Nuclei;
+
+#define CONTRAST_AGENT \
+  PVM_ContrastAgentYesNo; \
+  ACQ_contrast_agent; \
+  ACQ_contrast;
+
+/*
+ * Geometry definitions
+ */
+
+
+#define IMAGE_GEOMETRY_EDITOR_PARS \
+  PVM_SPackArrGradOrient; \
+  PVM_SPackArrNSlices; \
+  PVM_SPackArrSliceOffset; \
+  PVM_SPackArrReadOffset; \
+  PVM_SPackArrPhase1Offset; \
+  PVM_SPackArrPhase2Offset; \
+  PVM_SPackArrSliceGap; \
+  PVM_SPackArrSliceGapMode; \
+  PVM_SPackArrSliceDistance;
+
+pargroup
+{
+  PVM_Fov;
+  IMAGE_GEOMETRY_EDITOR_PARS
+} ImageGeometryCm ;
+
+
+
+
+
+#if 0
+#define IMAGE_GEOMETRY_GENERAL_CM \
+    PVM_Isotropic; \
+    PVM_FovCm; \
+    PVM_SpatResol; \
+    PVM_SliceThick; \
+    PVM_NSPacks; \
+    PVM_ObjOrderScheme; \
+    ACQ_obj_order;
+
+
+pargroup
+{
+  IMAGE_GEOMETRY_GENERAL_CM
+  ImageGeometryCm;
+} GeneralImageGeometryCm;
+
+
+#define IMAGE_GEOMETRY_GENERAL \
+    PVM_Isotropic; \
+    PVM_Fov; \
+    PVM_SpatResol; \
+    PVM_SliceThick; \
+    PVM_NSPacks; \
+    PVM_ObjOrderScheme; \
+    ACQ_obj_order;
+
+
+pargroup
+{
+  IMAGE_GEOMETRY_GENERAL
+  ImageGeometry;
+} GeneralImageGeometry;
+#endif
+
+#define PHASE_ENCODING \
+    ACQ_phase_encoding_mode; \
+    ACQ_spatial_size_1; \
+    ACQ_spatial_phase_1; \
+    ACQ_spatial_size_2; \
+    ACQ_spatial_phase_2; \
+    ACQ_phase_enc_start;
+
+
+
+#define GEOMETRY_PARS_CM \
+    IMAGE_GEOMETRY_GENERAL_CM \
+    IMAGE_PACKAGE_CM_PARS \
+    ImageGeometryCm;
+
+
+#define GEOMETRY_PARS\
+    IMAGE_GEOMETRY_GENERAL \
+    IMAGE_PACKAGE_PARS \
+    ImageGeometry;
+
+/*
+ * Standard Imaging Geometry
+ */
+
+pargroup
+{
+  PVM_SpatDimEnum;
+
+  PVM_Isotropic;
+  PVM_Fov;
+  PVM_FovCm;
+  PVM_MinFov;
+
+  PVM_SpatResol;
+
+  PVM_Matrix;
+  PVM_MinMatrix;
+  PVM_MaxMatrix;
+
+  PVM_AntiAlias;
+  PVM_MaxAntiAlias;
+
+  PVM_SliceThick;
+  PVM_MinSliceThick;
+
+  PVM_ObjOrderScheme;
+  PVM_ObjOrderList;
+
+  PVM_NSPacks;
+  PVM_SPackArrNSlices;
+  PVM_SPackArrSliceOrient;
+  PVM_SPackArrReadOrient;
+  PVM_SPackArrReadOffset;
+  PVM_SPackArrPhase1Offset;
+  PVM_SPackArrPhase2Offset;
+  PVM_SPackArrSliceOffset;
+  PVM_SPackArrSliceGapMode;
+  PVM_SPackArrSliceGap;
+  PVM_SPackArrSliceDistance;
+  PVM_SPackArrGradOrient;
+
+} StanImagingGeometry;
+
+
+/* Standard Geometry Class: StandardInplaneGeometry
+
+ */
+
+
+pargroup
+{
+  PVM_SpatDimEnum;
+  PVM_Isotropic;
+  PVM_Fov;
+  PVM_FovCm;
+  PVM_MinFov;
+  PVM_SpatResol;
+  PVM_Matrix;
+  PVM_MinMatrix;
+  PVM_MaxMatrix;
+  PVM_AntiAlias;
+  PVM_MaxAntiAlias;
+}
+attributes
+{
+  display_name "In-Plane Geometry";
+}StandardInplaneGeometry;
+
+/* SliceOffsetPars
+   Parameter describing slice position. To be stored
+   with dataset in order to allow offline or cloned
+   reconstructions.
+*/
+
+pargroup
+{
+  PVM_EffPhase0Offset;
+  PVM_EffPhase1Offset;
+  PVM_EffPhase2Offset;
+  PVM_EffSliceOffset;
+  PVM_EffReadOffset;
+  PVM_Phase0Offset;
+  PVM_Phase1Offset;
+  PVM_Phase2Offset;
+  PVM_SliceOffset;
+  PVM_ReadOffset;
+}SliceOffsetPars;
+
+
+/* Standard Geometry Class: StandardSliceGeometry
+
+ */
+
+
+pargroup
+{
+  PVM_SliceThick;
+  PVM_MinSliceThick;
+  PVM_ObjOrderScheme;
+  PVM_ObjOrderList;
+  PVM_NSPacks;
+  PVM_SPackArrNSlices;
+  PVM_MajSliceOri;
+  PVM_SPackArrSliceOrient;
+  PVM_SPackArrReadOrient;
+  PVM_SPackArrReadOffset;
+  PVM_SPackArrPhase1Offset;
+  PVM_SPackArrPhase2Offset;
+  PVM_SPackArrSliceOffset;
+  PVM_SPackArrSliceGapMode;
+  PVM_SPackArrSliceGap;
+  PVM_SPackArrSliceDistance;
+  PVM_SPackArrGradOrient;
+  PVM_SliceGeo;
+  PVM_SliceGeoObj;
+  SliceOffsetPars;
+}
+attributes
+{
+  display_name "Slice Geometry";
+}StandardSliceGeometry;
+
+
+/* starting from ver req. 20100101, this ImagingGeometry is used
+   for imaging geometry (inplane + slice, without matrix and dim)
+*/
+pargroup
+{
+  /* taken from inplane geometry: */
+  PVM_Isotropic;
+  PVM_Fov;
+  PVM_FovCm;
+  PVM_MinFov;
+  PVM_SpatResol;
+
+  /* taken from slice geometry */
+  PVM_SliceThick;
+  PVM_MinSliceThick;
+  PVM_ObjOrderScheme;
+  PVM_ObjOrderList;
+  PVM_NSPacks;
+  PVM_SPackArrNSlices;
+  PVM_MajSliceOri;
+  PVM_SPackArrSliceOrient;
+  PVM_SPackArrReadOrient;
+  PVM_SPackArrReadOffset;
+  PVM_SPackArrPhase1Offset;
+  PVM_SPackArrPhase2Offset;
+  PVM_SPackArrSliceOffset;
+  PVM_SPackArrSliceGapMode;
+  PVM_SPackArrSliceGap;
+  PVM_SPackArrSliceDistance;
+  PVM_SPackArrGradOrient;
+  PVM_SliceGeo;
+  PVM_SliceGeoObj;
+  SliceOffsetPars;
+}
+attributes
+{
+  display_name "Image Geometry";
+} ImageGeometry;
+
+
+/* Voxel geometry */
+
+pargroup
+{
+    PVM_VoxArrSize;
+    PVM_VoxArrPosition;
+    PVM_VoxArrPositionRPS;
+    PVM_VoxExcOrder;
+    PVM_NVoxels;
+    PVM_VoxMinDistance;
+    PVM_VoxMethodType;
+    PVM_VoxArrCSDisplacement;
+    PVM_VoxArrGradOrient;
+    PVM_VoxelGeoCub;
+    PVM_VoxelGeoObj;
+}
+attributes
+{
+  display_name "Voxel Geometry";
+} Voxel_Geometry;
+
+
+
+/* preemphasis class */
+pargroup
+{
+ PVM_PreemphasisSpecial;
+ PVM_PreemphasisFileEnum;
+} Preemphasis;
+
+
+/* Encoding pargroup */
+
+pargroup
+{
+  PVM_EncNReceivers;
+  PVM_EncAvailReceivers;
+  PVM_EncChanScaling;
+  PVM_EncChanPhase;
+  PVM_EncMatrix;
+  PVM_EncTotalAccel;
+  PVM_EncSteps0;
+  PVM_EncSteps1;
+  PVM_EncSteps2;
+  PVM_EncCentralStep0;
+  PVM_EncCentralStep1;
+  PVM_EncCentralStep2;
+  PVM_EncValues0;
+  PVM_EncValues1;
+  PVM_EncValues2;
+  
+  /* added 20190723 */  
+  PVM_EncGenSteps1;
+  PVM_EncGenSteps2;
+  PVM_EncGenValues1;
+  PVM_EncGenValues2;
+  PVM_EncGenTotalSteps;
+  PVM_EncGenLoopOuter;
+}
+attributes
+{
+  display_name "Encoding Output";
+} Encoding_Output;
+
+
+pargroup
+{
+
+  /* added 20190723 */
+  PVM_EncGen3D;
+  PVM_EncGen4D;
+  PVM_EncGenPpi;
+  PVM_EncGenCaipirinha;   
+  PVM_EncCS;
+  PVM_EncCSUndersampling;
+  PVM_EncCSCenterRatio;
+  PVM_EncCSGradOpt;
+  PVM_EncCSEllipse;
+  PVM_EncPftHomodyneReco;
+    
+  /* added with ver. req. 20100101: */
+  PVM_SpatDimEnum;
+  PVM_IsotropicFovRes;
+  PVM_Matrix;
+  PVM_MinMatrix;
+  PVM_MaxMatrix;
+  PVM_DefMatrix;
+  PVM_AntiAlias;
+  PVM_MaxAntiAlias;
+  PVM_EncSpectroscopy;
+
+  /* before 20100101 */
+  PVM_EncUseMultiRec;
+  PVM_EncActReceivers;
+  PVM_EncZf;
+  PVM_EncPft;
+  PVM_EncPftOverscans;
+  PVM_EncPpi;
+  PVM_EncPpiRefLines;
+  PVM_EncOrder;
+  PVM_EncStart; 
+  Encoding_Output;
+} Encoding;
+
+
+
+/* Tune shim parameter class */
+
+pargroup
+{
+  PVM_TuneShimSubset;
+  PVM_TuneShimForceSubset;
+  PVM_TuneShimNShimRep;
+  PVM_TuneShimRep;
+  PVM_TuneShimIncIter;
+  PVM_TuneShimActStw;
+  PVM_TuneShimStepWidth;
+  PVM_TuneShimRadius;
+  PVM_TuneShimSet;
+  PVM_TuneShimAdjFreq;
+  PVM_TuneShimFreqOffs;
+  PVM_TuneShimSkipShimming;
+}
+attributes
+{
+  display_name "Tune Shim";
+}Tune_Shim;
+
+pargroup
+{
+  PVM_RefScanNA;
+  PVM_RefScanRG;
+  PVM_RefScanPC;
+  PVM_RefScanPCYN;
+  PVM_RefScan;
+  PVM_RefScanJob;
+  PVM_RefScanStickFreq;
+}ReferenceScan;
+
+pargroup
+{
+  PVM_ShimCoeffNcal;
+  PVM_ShimCoeffNcoeff;
+  // PVM_ShimCoeffChan;
+  PVM_ShimCoeffId;
+  PVM_ShimCoeffHwStatus;
+  // PVM_ShimCoeffHwMode;
+  PVM_ShimCoeffCalVersion;
+  PVM_ShimCoeffCoeff;
+  PVM_ShimCoeffCoeffSD;
+
+}
+attributes
+{
+  display_name "Shim Coefficients";
+}
+Shim_Coefficients;
+
+pargroup
+{
+  RECO_wordtype;
+  RECO_map_mode;
+  RECO_map_percentile;
+  RECO_map_error;
+  RECO_map_range;
+  RECO_map_user_slope;
+  RECO_map_user_offset;
+}
+attributes
+{
+  display_name "Reconstruction Options";
+}
+Method_RecoOptions;
+
+
+pargroup
+{
+  PVM_MapShimReady;
+  PVM_MapShimLocShim;
+  PVM_MapShimStatus;
+  PVM_MapShimCalcStat;
+  PVM_DynamicShim;
+  PVM_MapShimNVolumes;
+  PVM_MapShimVolDescr;
+  PVM_MapShimVolumes;
+  PVM_MapShimVolShape;
+  PVM_StudyB0Map;
+  PVM_B0MapShimset;
+  PVM_ReqShimEnum;
+  PVM_MapShimUseShims;
+  PVM_MapShimVolDerive;
+  PVM_MapShimVolMargin;
+  PVM_MapShimVolMaster;
+  PVM_DynamicShimEnable;
+  PVM_DynamicShimConstrainToFast;
+  PVM_DynamicShimSliceMargin;
+  PVM_DynamicShimEventDuration;
+}MapShim;
+
+pargroup
+{
+   MapShim;
+   Shim_Coefficients;	
+   PVM_CfgInfoMrGroup;
+   PVM_MapShimReportBasicShimStatistics;
+   PVM_MapShimReportDynamicShimStatistics;
+   PVM_AdjShimset; /* calculated basic shimset */
+   PVM_MapShimReportBasicShimHistograms;
+   PVM_MapShimReportDynamicShimHistograms;
+   PVM_MapShimReportShimCalcStatus;
+   PVM_MapShimReportNDynamicShims;
+   PVM_MapShimReportNShims;
+   PVM_MapShimReportShimProperties;
+   PVM_MapShimReportShimIdentifiers;
+   PVM_MapShimReportShimHardwareChainIdentifier;
+}MapShimReportGroup;
+
+
+pargroup
+{
+  PVM_ScanInstrAdjChainDefs;
+  PVM_ScanInstrAdjResList;
+  PVM_ScanInstrAdjustment;
+}
+attributes
+{
+    display_name "Instruction Adjustment";
+} PVM_MrScanInstrAdjPars;
+
+/****************************************************************/
+/*      E N D   O F   F I L E                                   */
+/****************************************************************/
+

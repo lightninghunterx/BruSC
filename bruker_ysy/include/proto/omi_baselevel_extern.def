@@ -1,0 +1,4 @@
+extern double parameter ACQ_Fov overlay dataset modality PT;
+extern double parameter ACQ_Elevator overlay dataset modality PT;
+extern int parameter ACQ_Diopter overlay dataset modality PT;
+extern int parameter RECO_OmiDummy overlay dataset modality PT;

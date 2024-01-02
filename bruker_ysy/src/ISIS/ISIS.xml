@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2006-2017 Bruker BioSpin MRI GmbH. All Rights Reserved.
+$Id$
+Description: Layout of routine parameter editor for method ISIS.
+-->
+<cardStack
+    xmlns="http://www.bruker.de/mri/generated/xsd/card"
+    xmlns:xi="http://www.w3.org/2001/XInclude">
+    <parameterCard displayName="Routine">
+        <column>
+            <parameter name="PVM_RepetitionTime"/>
+            <parameter name="PVM_NAverages"/>
+            <parameter name="IsisNAverages"/>
+            <parameter name="PVM_NRepetitions"/>
+            <parameter name="PVM_ScanTimeStr"/>
+            <textLine text=""/>
+            <parameter name="ExcPul1.Flipangle" displayName="Flip Angle Excitation"/>
+            <parameter name="InvPul1.Flipangle" displayName="Flip Angle Inversion"/>
+        </column>
+        <column>
+            <parameter name="PVM_VoxArrSize[0]" displayName="Voxel Size"/>
+            <parameter name="PVM_VoxArrPosition[0]" displayName="Voxel Position"/>
+            <parameter name="IsisSpatialDispl"/>
+            <parameter name="PVM_SpecMatrix[0]" displayName="Acq. Points"/>
+            <parameter name="PVM_SpecSWH[0]" displayName="Acq. Bandwidth"/>
+            <parameter name="PVM_WsOnOff"/>
+            <textLine text=""/>
+            <parameter name="PVM_Nucleus1Enum" displayName="Nucleus 1"/>
+            <parameter name="PVM_Nucleus2Enum" displayName="Nucleus 2"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="Spectroscopy">
+        <xi:include href="file:///XML_INCLUDE_DIR/Spec1D.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Preparation">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_DummyScans"/>
+                <parameter name="PVM_DummyScansDur"/>
+            </column>
+            <column>
+                <parameter name="PVM_WsMode" displayName="Water Suppression"/>
+                <parameter name="PVM_OvsOnOff"/>
+                <parameter name="PVM_SatTransOnOff"/>
+                <parameter name="PVM_DecOnOff"/>
+                <parameter name="PVM_NoeOnOff"/>
+                <parameter name="PVM_TriggerModule"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Suppression.xml"/>
+        <parameterCard displayName="OVS">
+            <column>
+                <parameter name="PVM_OvsOnOff"/>
+                <parameter name="IsisNumOvsCycles"/>
+                <parameter name="PVM_OvsSliceThickness" displayName="Slice Thickness"/>
+                <parameter name="PVM_OvsGapToVoxel" displayName="Gap to Voxel"/>
+                <parameter name="PVM_OvsChemShiftDisplacement"/>
+                <parameter name="PVM_OvsConflict"/>
+            </column>
+            <column>
+                <textLine text=""/>
+                <parameter name="PVM_OvsPulse1Enum">
+                    <parameterCard displayName="Pulse Details">
+                        <column>
+                            <parameter name="PVM_OvsPulse1"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <parameter name="PVM_OvsSpoilerDuration"/>
+                <parameter name="PVM_OvsSpoilerStrength" style="inline_array"/>
+                <parameter name="PVM_OvsModuleDuration"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/SatTrans.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Decoupling.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Noe.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Trigg.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Optimization">
+        <column>
+            <parameter name="IsisManAdjustment" displayName="Manual Pulse Adjustment"/>
+            <parameter name="IsisFov"/>
+            <parameter name="PVM_Matrix[0]"/>
+            <parameter name="PVM_EffSWh" displayName="Acq. Bandwidth"/>
+        </column>
+        <column>
+            <textLine text=""/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="Sequence">
+        <parameterCard displayName="Main">
+            <column>
+                <textLine text=""/>
+                <parameter name="ExcPul1Enum" displayName="Excitation Pulse">
+                    <parameterCard displayName="Pulse Details">
+                        <column>
+                            <parameter name="ExcPul1"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <parameter name="InvPul1Enum" displayName="Inversion Pulse">
+                    <parameterCard displayName="Pulse Details">
+                        <column>
+                            <parameter name="InvPul1"/>
+                        </column>
+                    </parameterCard>
+                </parameter>
+                <textLine text=""/>
+                <parameter name="IsisSpoilDur" displayName="Spoiler Duration"/>
+                <parameter name="IsisSpoilPerc1"/>
+                <parameter name="IsisSpoilPerc2"/>
+                <parameter name="IsisSpoilPerc3"/>
+                <textLine text=""/>
+                <parameter name="DeadTime"/>
+                <parameter name="IsisStabDur"/>
+                <textLine text=""/>
+                <parameter name="PVM_ArrayPhaseAdjMode"/>
+            </column>
+            <column>
+                <parameter name="Method"/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <parameter name="IsisSpoilCyMm1"/>
+                <parameter name="IsisSpoilCyMm2"/>
+                <parameter name="IsisSpoilCyMm3"/>
+		<textLine text=""/>
+		<parameter name="PVM_AtsBedPositionMode" />
+		<parameter name="PVM_AtsChangeRefPos" />
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/Freq1.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Tx1.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Freq2.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Tx2.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Setup">
+        <parameterCard displayName="Main">
+            <column>
+                <parameter name="PVM_RefPowMod1"/>
+                <parameter name="PVM_RefPowCh1"/>
+                <textLine text=""/>
+                <parameter name="PVM_DeriveGains" displayName="Calc. Pulse Ampl."/>
+                <parameter name="ExcPul1Ampl.patt" displayName="Exc. Pulse Attenuation" widget="slider"/>
+                <textLine text=""/>
+                <parameter name="InvPul1Ampl.patt" displayName="Inv. Pulse Attenuation" widget="slider"/>
+                <textLine text=""/>
+		<textLine text=""/>
+		<parameter name="PVM_RgJob" />
+		<parameter name="PVM_RgValue" widget="slider" />
+            </column>
+            <column>
+                <textLine text=""/>
+                <parameter name="PVM_RefPowStat1"/>
+                <textLine text=""/>
+                <textLine text=""/>
+                <parameter name="ExcPul1Ampl.ppow" displayName="Exc. Pulse Power"/>
+                <parameter name="ExcPul1Ampl.pampl" displayName="Exc. Pulse Amplitude"/>
+                <parameter name="InvPul1Ampl.ppow" displayName="Inv. Pulse Power"/>
+                <parameter name="InvPul1Ampl.pampl" displayName="Inv. Pulse Amplitude"/>
+            </column>
+        </parameterCard>
+        <xi:include href="file:///XML_INCLUDE_DIR/SuppressionSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/OvsSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/SatTransSetup.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/mapshim.xml"/>
+        <xi:include href="file:///XML_INCLUDE_DIR/Shim.xml"/>
+    </parameterCard>
+    <parameterCard displayName="Result" cardType="adjresult">
+        <column>
+            <textLine text="Receiver Gain Result:"/>
+            <textLine text="Rx Array Phases Result:"/>
+            <textLine text=""/>
+        </column>
+        <column>
+            <parameter name="ACQ_jobs[0].receiverGain" displayName="Receiver Gain"/>
+            <parameter name="PVM_ArrayPhase"/>
+        </column>
+    </parameterCard>
+    <parameterCard displayName="System">
+        <xi:include href="file:///XML_INCLUDE_DIR/CoilSelection.xml"/>
+    </parameterCard>
+    <xi:include href="file:///XML_INCLUDE_DIR/RecoParameters.xml"/>
+</cardStack>

@@ -1,0 +1,156 @@
+;****************************************************************
+;
+; Copyright (c) 2002 - 2003
+; Bruker BioSpin MRI GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+; SINGLEPULSE - non-selective spectroscopy (pulse + acquire)
+;
+;****************************************************************
+;
+; d0 - TR padding
+; DynShimExpTyp   0      Manual Setup
+;                 1      S. Coil Increment
+;                 2      S. Coil Decrement
+;                 3      Selected Coil 
+;                 4      Max Tot. Curr     
+;   
+
+
+
+#include <MRI.include>
+define delay dur1
+
+"dur1=d1-de"
+define loopcounter lds = {$PVM_DummyScans}
+
+subroutine pulseAcquire(any aqlabel)
+{
+       d0
+       (p0:sp0 ph0):f1
+        dur1
+        ADC_INIT_(job0, ph1, ph0)
+        AQ_(job0)       ADC_START_(job0)
+        5m
+        10u             ADC_END_(job0)
+        "lds = lds - 1"
+        if "lds>=0" goto aqlabel
+        0u              ipp0
+        lo to aqlabel times NA
+}
+
+
+if(TestDynamicShims==Yes)
+{ 
+    define loopcounter ldyns  = {$NDynShims}
+    define loopcounter ldsrep = {$DynShimLoopsize}
+    define delay dsramp = {$ShimRamptime}
+    "dsramp= dsramp*1e-3"
+    define delay dsplateau = {$ShimPlateau}
+    "dsplateau = dsplateau*1e-3"
+    define loopcounter lds1
+    "lds1= ldyns / 2"
+    define list <shim_vector> shimset= {$DynamicShims}
+}
+
+subroutine DynShimPrepare()
+{
+ if(TestDynamicShims==Yes)
+ {
+   0u shimset.res;
+   if(DynShimExpTyp == 2)
+   {
+    dslab, 
+     0u shimset.dec
+     lo to dslab times lds1 
+   }
+   0u shimset.store
+   ; test if restore is working correctly
+   0u shimset.inc
+   0u shimset.inc
+  }
+}
+
+subroutine DynShimInit()
+{
+ ; assure start from state stored in DynShimPrepare
+ if(TestDynamicShims==Yes)
+ {
+    0u shimset.restore
+ }
+}
+
+subroutine DynShimLoop(any dynshimlab)
+{
+ if(TestDynamicShims==Yes)
+ {
+
+   if( DynShimExpTyp == 2 )
+   {
+     0u shimset.dec
+   }
+   else
+   {
+     0u shimset.inc
+   }
+   lo to dynshimlab times ldyns
+   if(DynShimAcqExperiment == No)
+   {
+    lo to dynshimlab times ldsrep
+   } 
+  }
+}
+
+subroutine DynShimApply(any startlab)
+{
+ if(TestDynamicShims==Yes)
+ {
+   dsramp grad_ramp<shims,dsramp> { shimset[] }
+   if(DynShimAcqExperiment == Yes)
+   {
+      subr pulseAcquire(startlab)
+   }
+   else
+   {
+     dsplateau
+   }
+ } 
+}
+
+
+
+INIT_DEVICES
+        5u              rpp0
+subr DynShimPrepare()
+
+
+subr DynShimInit()
+start,  10u  
+
+if(TestDynamicShims==Yes)
+{
+   subr DynShimApply(start)
+   if(DynShimAcqExperiment == Yes)
+   {
+      0u              rpp0
+   }
+   subr DynShimLoop(start)
+   subr DynShimInit();
+   if(DynShimAcqExperiment == No)
+   {
+      subr pulseAcquire(start)
+   }
+}
+else
+{
+   subr pulseAcquire( start )
+}
+   0u              rpp0
+   lo to  start times PVM_NRepetitions
+   SETUP_GOTO(start)
+exit
+
+ph0 = 0 2 1 3
+ph1 = 0

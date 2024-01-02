@@ -1,0 +1,151 @@
+/*** ^^A -*-C++-*- **********************************************/
+/*	imageUtil 2010-10-29					*/
+/****************************************************************/
+/*	Short Description :					*/
+/*	This file contains functions and definitions for	*/
+/*	imaging AU programs.					*/
+/****************************************************************/
+/*	Keywords :						*/
+/*	imaging							*/
+/****************************************************************/
+/*	Author(s) :						*/
+/*	Name		: Klaus Zick				*/
+/*	Organisation	: Bruker BioSpin GmbH, Germany		*/
+/*      Email           : klaus.zick@bruker.com                 */
+/****************************************************************/
+/*      Name    Date    Modification:                           */
+/*      klz     110526  softpower calculation corrected         */
+/*      klz     180515  orientation handling removed            */
+/*                      new getPreempPar                        */
+/*                      getGradientCalib for compatibility      */
+/*      klz     180524  checkMaxSWH included to avoid           */
+/*                      negative dphase time                    */
+/*      klz     180615  works on instrument and on workstation  */
+/****************************************************************/
+/*
+$Id: imageUtil,v 1.3 2018/06/15 15:10:21 wem Exp $
+*/
+
+#include <ShapeIO/ShapeIOC.h>
+#include <pstruc.h>
+#include<pstruc_preemp.h>
+static struct preemp_pars preempPars0 =
+#include<pinit_preemp.h>
+
+double softRefPowerFromShape(const char* softname, double softpower,
+			     double harddur, double softdur, double plw1)
+{
+	char filename[PATH_MAX], result[PATH_MAX];
+
+	if (getParfileDirForRead(softname, SHAPE_DIRS, filename) < 0)
+	{
+		Proc_err(DEF_ERR_OPT, "%s: %s", softname, filename);
+		ABORT
+	}
+
+	if (analyzeShapeC(filename, "integr3", "", result) >= 2)
+	{
+		softpower = 2*harddur / softdur / strtod(result, NULL);
+		softpower = softpower * softpower * plw1;
+	}
+
+	return softpower;
+}
+
+double bandWidthFromShape(const char* softname, double softw, double softdur)
+{
+	char filename[PATH_MAX], result[PATH_MAX];
+
+	if (getParfileDirForRead(softname, SHAPE_DIRS, filename) < 0)
+	{
+		Proc_err(DEF_ERR_OPT, "%s: %s", softname, filename);
+		ABORT
+	}
+
+	if (analyzeShapeC(filename, "bandw2ry", "180", result))
+	    softw = strtod(result, NULL) / softdur * 1e6;
+
+	return softw;
+}
+
+void handleOrient(const char* curdat, int interactive)
+{
+	STOREPARM("SORIENT", 0)
+}
+
+double getPreempPar(const char* parName)
+{
+	FILE *fpr;
+	char text_buf[128], probeId[128], errorBuf[200], filePath[128];
+	int retvalGetpar, retvalFile;
+
+	// define and initialize (important) the struct_preemp for getpar
+	struct preemp_pars preempPars = preempPars0;
+
+	// get the id (Z....) of the currently installed probe
+	getProbeId(probeId, 100);
+	// construct pass to default preemphasis file and read struct
+	sprintf(filePath, "%s/instr/remote_spect/preemp/%s/default", PathXWinNMRConf(), probeId);
+
+	retvalFile = getPreempDefaultFileForProbe(probeId, filePath, errorBuf, 200);
+	// if this operation fails a workstation is assumed
+	if (retvalFile < 0)
+	{
+		sprintf(filePath, "%s/%s", PathXWinNMRConf(), "instr/curinst");
+		fpr = fopen(filePath, "rt");
+		if (fpr == 0)
+		{
+			Proc_err(DEF_ERR_OPT, "Cannot open file %s", filePath);
+			return 0.0;
+		}
+		while(fgets(text_buf, sizeof(text_buf), fpr) != 0)
+		fclose(fpr);
+		sprintf(filePath, "%s/instr/%s/preemp/%s/default", PathXWinNMRConf(), text_buf, probeId);
+	}
+
+	retvalGetpar = getpar(filePath, parName, &preempPars);
+	if (retvalGetpar < 0)
+	{
+		Proc_err(DEF_ERR_OPT, "Error in getpar(%s):\n%s", filePath, par_err(retvalGetpar));
+		return 0.0;
+	}
+
+	if ( (strcmp(parName,"GRADCC") == 0) )   { return preempPars.GRADCC / 42577.4691; }  /*G/mm*/
+	if ( (strcmp(parName,"RAMPTM") == 0) )   { return preempPars.RAMPTM / 1000; }
+	if ( (strcmp(parName,"RISETM") == 0) )   { return preempPars.RISETM / 1000; }
+
+	return 0.0;
+}
+
+double getGradientCalib()
+{
+	return getPreempPar("GRADCC");
+}
+
+double checkMaxSWH(const char* curdat, float rise, int interactive, int pixr)
+{
+	float swh, dw, aq;
+	FETCHPAR("SWH",&swh);
+	if (interactive)
+	{
+		GETFLOAT("spectral width (Hz):",swh);
+		STOREPAR("SWH", swh);
+	}
+	FETCHPAR("DW",&dw);
+	aq = dw*2*pixr/1000;
+	while (aq <= rise)
+	{
+		STOREPAR("SWH", swh/rise*aq/1.1);
+		FETCHPAR("SWH",&swh);
+		if (interactive)
+		{
+			GETFLOAT("spectral width (Hz) <= ",swh);
+			STOREPAR("SWH", swh);
+		}
+		FETCHPAR("DW",&dw);
+		aq = dw*2*pixr/1000;
+		FETCHPAR("SWH",&swh);
+	}
+	return aq;
+
+}

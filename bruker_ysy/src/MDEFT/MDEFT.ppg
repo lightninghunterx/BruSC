@@ -1,0 +1,121 @@
+;****************************************************************
+;
+; Copyright (c) 2001 - 2011
+; Bruker BioSpin MRI GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+; 
+; MDEFT - a gradient echo imaging method
+;
+;****************************************************************
+
+
+#include <MRI.include>
+
+define delay denab
+
+define list<phase> phaselist = {$RFPhaseList}
+define list<frequency> mdeftlist = {$Mdeft_PrepFL} 
+define list<frequency> freqTx = {$ACQ_O1_list}
+define list<frequency> freqRx = {$ACQ_O1B_list}
+
+"denab =  d3 - de"
+"l6 = l4 + l13"
+
+#include <PrepModulesHead.mod> 
+
+
+INIT_DEVICES
+
+
+#define r2d ACQ_spatial_phase_1
+#define r3d ACQ_spatial_phase_2
+
+grad_zero_for_gs <r2d, r3d>
+
+decr0,            r2d.dec
+                  r3d.dec
+        lo to decr0 times l14
+
+start,     0u
+
+;----------------------------------start of the main loop ----------
+slice,     0u
+
+subr TriggerPhase()
+#include <MdeftPrep.mod>
+;----------------------------------preparation modules -------------
+subr FovSat()
+subr FatSup()
+
+if( l12 >=1 )                      ;dummy echoes
+{
+ddslice2, 10u   freqRx(receive):f1
+
+           d6     grad_ramp{0, 0, g9}
+;----------------------------------slice selection------------------	
+	   d3     grad_ramp{0, 0, g0} freqTx:f1
+	  (p0:sp0 phaselist):f1
+	   d3     grad_off
+;----------------------slice rephase, read dephase, phase encoding----
+	  d10     grad_ramp{g2, r2d*g3, g1+r3d*g4}
+	   d2     grad_off
+;----------------------------------frequency encoding---------------
+        denab     grad_ramp{g5, 0, 0} 
+           de
+     AQ_(job0)
+;----------------------------------read spoiler + phase encoding----
+          d11     grad_ramp{g6, r2d*g7, r3d*g8} ; 2nd and 3rd dims
+          d13     grad_ramp{g6, 0, 0}
+           d3     grad_off
+           d1	
+;----------------------------------2d loop--------------------------
+           0u     phaselist.inc    ;phase list for RF spoiling
+        lo to ddslice2 times l12
+}
+
+slice2,   10u     freqRx(receive):f1
+           d6     grad_ramp{0, 0, g9}
+;----------------------------------slice selection------------------	
+           d3     grad_ramp{0, 0, g0} freqTx:f1
+          (p0:sp0 phaselist):f1
+           d3     grad_off
+;----------------------slice rephase, read dephase, phase encoding----
+          d10     grad_ramp{g2, r2d*g3, g1+r3d*g4}
+           d2     grad_off
+;----------------------------------frequency encoding---------------
+        denab     grad_ramp{g5, 0, 0} 
+                  ADC_INIT_(job0, ph1, phaselist) 
+     AQ_(job0)    ADC_START_(job0)
+;----------------------------------read spoiler + phase encoding----
+          d11     grad_ramp{g6, r2d*g7, r3d*g8} ; 2nd and 3rd dims
+          d13     grad_ramp{g6, 0, 0}
+           d3     grad_off
+           d1     ADC_END_(job0)
+;----------------------------------common loop--------------------------
+           0u     phaselist.inc    ;phase list for RF spoiling
+           0u     r2d.inc
+           0u     r3d.inc
+        lo to slice2 times l5
+        lo to slice times l6
+                  "l6 = l4"
+        lo to start times NAE
+        lo to start times NR
+
+SETUP_GOTO(start)
+
+exit
+
+ph0 = 0
+ph1 = 0 
+
+
+
+
+	
+
+
+
+
+

@@ -1,0 +1,4 @@
+extern PtCompoundType parameter CONFIG_SCAN_Compound overlay dataset modality PT;
+extern int parameter CONFIG_SCAN_NumberOfRings overlay dataset modality PT;
+extern int parameter CONFIG_SCAN_DetectorsByRing overlay dataset modality PT;
+extern int parameter CONFIG_SCAN_CalibrationId overlay dataset modality PT;

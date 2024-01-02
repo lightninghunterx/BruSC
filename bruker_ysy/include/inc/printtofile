@@ -1,0 +1,54 @@
+/*-*-C++-*-*****************************************************
+ *
+ * $Source: /sc/CvsTree/sc/gen/src/prg/makeau/inc/printtofile,v $
+ *
+ * Copyright (c) 1996
+ * BRUKER BIOSPIN GMBH
+ * D-76287 Rheinstetten, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id: printtofile,v 1.8 2011/07/25 14:00:56 prs Exp $
+ *
+ ****************************************************************
+*/
+
+/****************************************************************/
+/* create postscript/pdf file in the dataset directory		*/
+/* if configuration flag "email_print" in ICON-NMR is enabled	*/
+/* or the processing AU program is called with:			*/
+/* 'a' for creating pdf file in the data directory (ICON-NMR setting) */
+/* 'e' for creating postscript file in the data directory (ICON-NMR setting) */
+/* 'g' for creating png file in the data directory (ICON-NMR setting) */
+/* 'h' for creating postscript file in the home directory	*/
+/* 't' for creating postscript file in a fix directory path	*/
+/****************************************************************/
+
+{
+  int ptfblank = 1;
+  const char* ptfcp = cmd;
+  char ptfc = *ptfcp;
+
+  while (ptfc)
+  {
+    char ptfcn = *++ptfcp;
+
+    if (ptfblank  &&
+	(ptfc == 'a' || ptfc == 'e' || ptfc == 'h' || ptfc == 't' || ptfc == 'g')  &&
+	(ptfcn == 0 || isspace((int)ptfcn)))
+    {
+      char ptfargs[PATH_MAX + 4];
+      char* ep = ptfargs + sprintf(ptfargs, "%c", ptfc);
+
+      if (portf  &&  *portf)
+	(void)sprintf(ep, " \"%s\"", portf);
+
+      XAU("plot_to_file", ptfargs)
+    }
+
+    ptfblank = isspace((int)ptfc);
+    ptfc = ptfcn;
+  }
+}
+
+

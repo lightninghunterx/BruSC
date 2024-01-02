@@ -1,0 +1,610 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2001-2003
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+pargroup
+{
+  PVM_DummyScans;
+  PVM_DummyScansDur;
+}
+attributes
+{
+  display_name "Dummy Scans";
+} DummyScans_Parameters;
+
+
+pargroup
+{
+  PVM_FatSupPulEnum;
+  PVM_FatSupPul;
+  PVM_FatSupPulAmpl;
+  
+  PVM_FatSupBandWidth;
+  PVM_FatSupSpoil;
+  PVM_FatSupModuleTime;
+  
+  PVM_FatSupPerform;
+  PVM_FatSupRampTime;
+  PVM_FatSupGradWait;
+  PVM_FatSupFL;
+  PVM_FatSupRfLength;
+  PVM_FatSupSpoilDur;
+  PVM_FatSupSpoilAmp;
+}
+attributes
+{
+  display_name "Fat Suppression";
+} Fat_Sup_Parameters;
+
+pargroup
+{
+  PVM_FwsOnOff;
+  PVM_FwsChemShift;
+  PVM_FwsAngle;
+  PVM_FwsEchoShift;
+  PVM_FwsLoop;
+}
+attributes
+{
+  display_name "Fat Water Separation";
+} Fws_Parameters;
+
+pargroup
+{
+  PVM_FwsRecoMode;
+  PVM_FwsKernelSize;
+  PVM_FwsGaussBroadening;
+  PVM_FwsSpatShift;
+  PVM_FwsSnr;
+  PVM_FwsSigLevel;
+  PVM_FwsImages;
+}
+attributes
+{
+  display_name "Fat Water Separation";
+} Fws_RecoParameters;
+
+
+#define FOV_SAT_PARS     \
+  PVM_FovSatPulEnum;     \
+  PVM_FovSatPul;         \
+  PVM_FovSatPulAmpl;     \
+  PVM_FovSatNSlices;     \
+  PVM_FovSatThick;       \
+  PVM_FovSatOffset;      \
+  PVM_FovSatSpoil;       \
+  PVM_FovSatSpoilDur;    \
+  PVM_FovSatSpoilAmp;    \
+  PVM_FovSatModuleTime;  \
+  PVM_FovSatGrad;        \
+  PVM_FovSatRampTime;    \
+  PVM_FovSatGradWait;    \
+  PVM_FovSatSliceOri;    \
+  PVM_FovSatSliceVec;    \
+  PVM_FovSatFL;          \
+  PVM_FovSatRfLength;    \
+  PVM_FovSatGeoObj;      \
+  PVM_FovSatGeoCub;
+
+
+pargroup
+{
+FOV_SAT_PARS
+}
+attributes
+{
+  display_name "FOV Saturation";
+} Fov_Sat_Parameters;
+
+#undef FOV_SAT_PARS
+
+pargroup
+{
+  PVM_InFlowSatNSlices;
+  PVM_InFlowSatSliceOrient;
+  PVM_InFlowSatThick;
+  PVM_InFlowSatMinThick;
+  PVM_InFlowSatSliceGap;
+  PVM_FlowSatGeoObj;				
+  PVM_FlowSatGeoCub;
+  PVM_FlowSatPulEnum;
+  PVM_FlowSatPul;
+  PVM_FlowSatPulAmpl;
+  PVM_InFlowSatSpoil;
+  PVM_InFlowSatPos;
+  PVM_InFlowSatModuleTime;
+  PVM_InFlowSatFL;
+  PVM_SfD0;
+  PVM_SfD2;
+  PVM_SfP0;
+  PVM_SfLp0;
+}
+attributes
+{
+  display_name "Flow Sat. Parameters";
+}Flow_Sat_Parameters;
+
+
+pargroup
+{
+  PVM_TriggerMode;
+  PVM_TriggerDelay;
+  PVM_TriggerDur;
+  PVM_TriggerModuleTime;
+}
+attributes
+{
+  display_name "Trigger";
+} Trigger_Parameters;
+
+pargroup
+{
+  PVM_TriggerOutMode;
+  PVM_TriggerOutDelay;
+  PVM_TriggerOutModuleTime;
+}
+attributes
+{
+  display_name "Trigger Out";
+} TriggerOut_Parameters;
+
+pargroup
+{
+    PVM_OvsConflict;
+    PVM_OvsSliceThickness;
+    PVM_OvsGapToVoxel;
+    PVM_OvsPulse1Enum;
+    PVM_OvsPulse1;
+    PVM_OvsPulse1Ampl;
+    PVM_OvsSpoilerDuration;
+    PVM_OvsSpoilerStrength;
+    PVM_OvsChemShiftDisplacement;
+    PVM_OvsModuleDuration;
+}
+attributes
+{
+  display_name "OVS Parameters";
+} OuterVolumeSuppression;
+
+
+pargroup
+{
+    PVM_WsMode;
+    PVM_WsOnOff;
+    PVM_WsBandwidth;
+    PVM_WsOffsetHz;
+    PVM_WsOffsetppm;
+    PVM_WsOffsetPPM;
+    PVM_WsCalcSpoiler;
+    PVM_WsSpoilerStrength;
+    PVM_VpSpoilerStrength;
+    PVM_ChSpoilerStrength;
+    PVM_WsCalcTiming;
+    PVM_WsMeanT1;
+    PVM_WsLockGains;
+    PVM_VpInterPulseDelay;
+    PVM_VpSpoilerOnDuration;
+    PVM_ChInterPulseDelay;
+    PVM_ChSpoilerOnDuration;
+    PVM_VpPul1Enum;
+    PVM_VpPul2Enum;
+    PVM_VpPul1;
+    PVM_VpPul2;
+    PVM_VpPul1Ampl;
+    PVM_VpPul2Ampl;
+    PVM_ChPul1Enum;
+    PVM_ChPul2Enum;
+    PVM_ChPul3Enum;
+    PVM_ChPul1;
+    PVM_ChPul2;
+    PVM_ChPul3;
+    PVM_ChPul1Ampl;
+    PVM_ChPul2Ampl;
+    PVM_ChPul3Ampl;
+    PVM_WsDeriveGains;
+ /*    PVM_WsDeriveGainMode;*/
+    PVM_WsModuleDuration; 
+}
+attributes
+{
+  display_name "Water Suppression Parameters";
+}Suppression;
+
+pargroup
+{
+  PVM_BlBloodInvTime;
+  PVM_BlBloodNSlabs ;
+  PVM_BlBloodSlabThick;
+  PVM_BlBloodMinThick;
+  PVM_BlBloodSlabOffset;
+  PVM_BlBloodPulEnum;
+  PVM_BlBloodPul;
+  PVM_BlBloodPulAmpl;
+  PVM_BlBloodSpoiler;
+  PVM_BlBloodModuleTime;
+  PVM_BlBloodOffsetHz;
+  PVM_BlBloodGrad;
+  PVM_BlBloodFL;
+  PVM_BlbD0;
+  PVM_BlbD1;
+  PVM_BlbD2;
+  PVM_BlbP0;
+}
+attributes
+{
+  display_name "Black Blood Parameters";
+}BlackBlood_Parameters;
+
+pargroup
+{
+  PVM_SelIrInvTime;
+  PVM_SelIrNSlabs ;
+  PVM_SelIrSlabThick;
+  PVM_SelIrMinThick;
+  PVM_SelIrSlabOffset;
+  PVM_SelIrPulEnum;
+  PVM_SelIrPul;
+  PVM_SelIrPulAmpl;
+  PVM_SelIrSpoiler;
+  PVM_SelIrModuleTime;
+  PVM_SelIrOffsetHz;
+  PVM_SelIrGrad;
+  PVM_SelIrFL;
+  PVM_SelIrD0;
+  PVM_SelIrD1;
+  PVM_SelIrD2;
+  PVM_SelIrD4;
+  PVM_SelIrP0;
+  PVM_SelIrL0;
+}
+attributes
+{
+  display_name "Selective IR Parameters";
+} Selective_IR_Parameters;
+
+
+pargroup
+{  
+  PVM_DecMode;
+  PVM_DecPulseEnum;
+  PVM_DecUserPulse;
+  PVM_DecTime;
+  PVM_DecDuration;
+  PVM_DeriveDecPowerYesNo;
+  PVM_DecPower;
+  PVM_DecNutationFreq;
+  PVM_DecPulseElementDuration; 
+  PVM_DecOffsetppm;
+  PVM_DecOffsetHz;
+  PVM_DecDelay;
+  PVM_DecD0;
+  PVM_DecD1;
+}
+attributes
+{
+  display_name "Decoupling Parameters";
+} Decoupling_Parameters;
+
+pargroup
+{
+  PVM_NoeMode;
+  PVM_NoePulseEnum;
+  PVM_NoeUserPulse;
+  PVM_NoeTime;
+  PVM_DeriveNoePowerYesNo;
+  PVM_NoePower;  
+  PVM_NoeNutationFreq;
+  PVM_NoePulseElementDuration;
+  PVM_NoeOffsetppm;
+  PVM_NoeOffsetHz;
+  PVM_NoeModuleTime;
+  PVM_NoeDelay;
+  PVM_NoeD0;
+  PVM_NoeD1;
+}
+attributes
+{
+  display_name "NOE Parameters";
+} NOE_Parameters; 
+
+pargroup
+{
+  PVM_TaggingInterPulseDelay;
+  PVM_TaggingPulseNumber;
+  PVM_TaggingPulseElement;
+  PVM_TaggingGradientStrength;
+  PVM_TaggingGridDelay;
+}
+attributes
+{
+  display_name "Tagging Details";
+}TaggingDetails;
+
+pargroup
+{
+  PVM_TaggingPulEnum;
+  PVM_TaggingPul;
+  PVM_TaggingPulAmpl;
+  PVM_TaggingMode;
+  PVM_TaggingDir;
+  PVM_TaggingDistance;
+  PVM_TaggingMinDistance;
+  PVM_TaggingThick;
+  PVM_TaggingOffset1;
+  PVM_TaggingOffset2;
+  PVM_TaggingAngle;
+  PVM_TaggingDelay;
+  PVM_TaggingModuleTime;
+  TaggingDetails;
+  PVM_TaggingFL;
+  PVM_TaggingD0;
+  PVM_TaggingD1;
+  PVM_TaggingD2;
+  PVM_TaggingD3;
+  PVM_TaggingD4;
+  PVM_TaggingP0;
+  PVM_TaggingLp0;
+  PVM_TaggingGradAmp1;
+  PVM_TaggingGradAmp2;
+  PVM_TaggingGradAmp3;
+  PVM_TaggingGradAmp4;
+  PVM_TaggingSpoiler;
+}
+attributes
+{
+  display_name "Tagging Parameters";
+}Tagging_Parameters;
+
+pargroup
+{
+  PVM_NEvolutionCycles;
+  PVM_EvolutionCycles;
+  PVM_EvolutionMode;
+  PVM_EvolutionTime;
+  PVM_EvolutionDelay;
+  PVM_EvolutionModuleTime;
+}
+attributes
+{
+  display_name "Evolution";
+} Evolution_Parameters;
+
+pargroup
+{
+  PVM_SegmentationDur;
+  PVM_SegmentationShots;
+  PVM_SegmentationSegments;
+  PVM_SegmentationDummyDur;
+  PVM_SegmentationDummies;
+  PVM_SegmentationMinDur;
+  PVM_SegmentationModuleTime;
+  PVM_SegmentationTotalTime;
+  PVM_SegmentationForceOn;
+  PVM_SegmentationSegmentsN;
+  PVM_SegmentationShotsTot;
+  PVM_SegmentationDelay;
+}
+attributes
+{
+  display_name "Segmentation";
+} Segmentation_Parameters;
+
+pargroup
+{
+  PVM_FairInvPulEnum;
+  PVM_FairInvPul;
+  PVM_FairInvPulAmpl;
+  PVM_FairInvSlabGradient;
+  PVM_FairInvSlabOffsetHz;
+  PVM_FairFreqList;
+  PVM_FairSpoilGrad;
+  PVM_FairMinTIR;
+  PVM_FairInvGrad;
+  PVM_FairMaxTIR;
+  PVM_FairTIR_Arr;
+  PVM_FairSpoiler;
+  PVM_FairTIR_Mode;
+  PVM_FairVdList1;
+  PVM_FairVdList2;
+  PVM_FairMode;
+  PVM_FairTIR;
+  PVM_FairTIR_Inc;
+  PVM_FairTIR_Fac;
+  PVM_FairTIR_NExp;
+  PVM_FairRepSpacing;
+  PVM_FairInvSlabThick;
+  PVM_FairInvSlabMargin;
+}
+attributes
+{
+  display_name "FAIR";
+}FairParameters;
+
+
+/* drift compensation */
+
+pargroup
+{
+  PVM_DriftCompYesNo;
+  PVM_DriftCompStore;
+  PVM_DriftCompUpdateTime;
+  PVM_DriftCompNavOnOff;
+  PVM_DriftCompModuleTime;
+  //for AutoNavigator
+  PVM_DriftCompNavPoints;
+  PVM_DriftCompNavPulse;
+  PVM_DriftCompNavPulseEnum;
+  PVM_DriftCompNavSWh;
+  PVM_DriftCompNavSpoilYesNo;
+  PVM_DriftCompNavSpoil;
+  PVM_DriftCompStickFreq;
+  PVM_DriftCompNavD1;
+  PVM_DriftCompNavD2;
+  PVM_DriftCompNavD3;
+  PVM_DriftCompNavD4;
+  PVM_DriftCompNavD5;
+  PVM_DriftCompNavP0;
+}
+attributes
+{
+  display_name "Drift Compensation";
+} DriftComp_Parameters;
+
+
+/* Navigator Module */
+pargroup
+{
+  PVM_NavPosMode;
+  PVM_NavPosCentered;
+  PVM_NavSliceThickness;
+  PVM_MinNavSliceThickness;
+  PVM_NavSliceOffset;
+  PVM_NavPulseEnum;
+  PVM_NavPulse;
+  PVM_NavSliceRephTime;
+  PVM_NavVec;
+  PVM_NavPoints;
+  PVM_NavSWh;
+  PVM_NavigatorModuleTime;
+  PVM_NavGeoObj;
+  PVM_NavGeoCub;
+  PVM_NavGlobal;
+  PVM_NavStickFreq;
+  PVM_NavSpatEnc;
+  PVM_NavReadFov;
+  PVM_NavReadOffset;
+  PVM_NavReadVec;
+}
+attributes
+{
+  display_name "Navigator";
+} NavParameters;
+
+/* ArrayPhase Adjustment */
+pargroup
+{
+  PVM_ArrayPhase;
+  PVM_ArrayPhasePerObject;
+  PVM_ArrayPhaseAdjMode;
+}
+attributes
+{
+  display_name "Array Phase";
+} ArrayPhaseParameters;
+
+/* CASL Module */
+pargroup
+{
+  PVM_CaslExpType;
+  PVM_CaslAcqOrder;
+  PVM_CaslLabelImages;
+  PVM_CaslControlImages;
+  PVM_CaslLabelCoil;
+  PVM_CaslB1;
+  PVM_CaslAmplDerivation;
+  PVM_CaslB1MapResult;
+  PVM_CaslVel;
+  PVM_CaslRFPowerYesNo;
+  PVM_CaslLabelPos;
+  PVM_CaslLabelSliceOffset;
+  PVM_CaslFrequency;
+  PVM_CaslLabelTime;
+  PVM_CaslPostLabelTime;
+  PVM_CaslLabelGradient;
+  PVM_CaslLabelGradientHzmm;
+  PVM_CaslModuleTime;
+  PVM_CaslGeoObj;
+  PVM_CaslGeoCub;
+  PVM_CaslRFPul;
+  PVM_CaslRFPulAmpl;
+  PVM_CaslVec;
+  PVM_CaslImages;
+  PVM_CaslFreqList;
+  PVM_CaslRFPowerList;
+  PVM_CaslGradDutyCycle;
+  PVM_CaslGradMaxDutyCycle;
+  PVM_CaslImagesMT;
+  PVM_CaslFreqListMT;
+  PVM_CaslFreqListControlMT;
+  PVM_CaslAdjustmentMT;
+  PVM_CaslLabelImagesMT;
+  PVM_CaslControlImagesMT;
+  PVM_CaslLabelTimeMT;
+  PVM_CaslPostLabelTimeMT;
+  PVM_CaslDummyScansMT;
+  PVM_CaslMapMT;
+  PVM_CaslControlFreqMode;
+  PVM_CaslMaskThresholdMT;	
+  PVM_CaslCorrMeanDiffMT;
+  PVM_CaslViewClusterMT;
+  PVM_CaslOptControlFreqMT;
+  PVM_CaslCorrstepMT;
+}
+attributes
+{
+  display_name "CASL Parameters";
+}CaslParameters;
+
+pargroup
+{
+  PVM_CaslRecoMode;
+  PVM_CaslRepAveraging;
+  PVM_CaslOutlierDetection;
+  PVM_CaslOutlierMatrix;
+  PVM_CaslOutlierCnt;
+  PVM_CaslOutlierThreshold;
+  PVM_CaslStdOutliersLabel;
+  PVM_CaslStdOutliersControl;
+  PVM_CaslLambda;
+  PVM_CaslTransitTime;
+  PVM_CaslIEMean;
+  PVM_CaslRestoreIE;
+  PVM_CaslT1Bl;
+  PVM_CaslT1Tissue;
+}
+attributes
+{
+  display_name "CASL Reco Parameters";
+}CaslRecoParameters;
+
+
+pargroup
+{
+  PVM_SatTransType;
+  PVM_SatTransPulse;
+  PVM_SatTransPulseEnum;
+  PVM_SatTransPulseAmpl;
+  PVM_SatTransPulseAmpl_uT;
+  PVM_SatTransFreqInput;
+  PVM_SatTransFreqUnit;
+  PVM_SatTransFreqValues;
+  PVM_SatTransFreqRanges;
+  PVM_SatTransInterPulseDelay;
+  PVM_SatTransNPulses;
+  PVM_SatTransSpoil;
+  PVM_SatTransModuleTime;
+  PVM_SatTransModuleMeanRFPower;
+  PVM_SatTransPowerList;
+  PVM_SatTransRepetitions;
+  PVM_SatTransRefScan;
+  PVM_SatTransFL;
+  PVM_StD0;
+  PVM_StD1;
+  PVM_StD2;
+  PVM_StD3;
+  PVM_StP0;
+}
+attributes
+{
+  display_name "Sat Transfer Parameters";
+} Sat_Transfer_Parameters;

@@ -1,0 +1,72 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2016
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+/* part of Spirals toolbox
+
+  Define parameter groups.
+
+*/
+
+pargroup
+{
+  PVM_SpiralDebug;
+  PVM_SpiralNbOfGradientPoints;
+  PVM_SpiralNbOfAcqPoints;
+  PVM_SpiralAcqDwellTime;
+  PVM_SpiralPreAcquisitionDelay;
+  PVM_SpiralModuleTime;
+  PVM_SpiralEchoTime;
+  PVM_SpiralNavSize;
+  PVM_SpiralPreSize;
+  PVM_SpiralSize;
+  PVM_SpiralPostSize;
+  PVM_SpiralPointsPerRotation;
+  PVM_SpiralShape1;
+  PVM_SpiralShape2;
+  PVM_SpiralInterleavCos;
+  PVM_SpiralInterleavSin;
+  PVM_SpiralMatrix;
+  PVM_SpiralResol;
+  PVM_SpiralD0;
+  PVM_SpiralD1;
+  PVM_SpiralD2;
+  PVM_SpiralPars;
+  PVM_SpiralShapePars;
+  PVM_SpiralContext;
+} 
+attributes
+{
+  display_name "Spiral Details";
+} SpiralDetails;
+
+pargroup
+{
+  PVM_SpiralMode;
+  PVM_SpiralFlowComp;
+  PVM_SpiralDesign;
+  PVM_SpiralNbOfInterleaves;
+  PVM_SpiralFrequencyLimit;
+  PVM_SpiralSlewRateLimit;
+  PVM_SpiralNavMode;
+  PVM_SpiralGradDwellTime;
+  PVM_SpiralGradientLimit;
+  PVM_SpiralEffectiveGradient;
+  PVM_SpiralAcquisitionTime;
+  SpiralDetails;
+} 
+attributes
+{
+  display_name "Spiral";
+} SpiralParameters;
+

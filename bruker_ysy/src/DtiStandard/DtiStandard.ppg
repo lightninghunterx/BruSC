@@ -1,0 +1,114 @@
+;****************************************************************
+;
+; Copyright (c) 2003
+; Bruker BioSpin MRI GmbH
+; D-76275 Ettlingen, Germany
+;
+; All Rights Reserved
+;
+; a diffusion tensor spin warp method
+;
+; $Id$
+;
+;****************************************************************
+
+
+#include <MRI.include>
+#include <DwiHead.mod>
+#include <PrepModulesHead.mod>
+
+#define r2d ACQ_spatial_phase_1
+#define r3d ACQ_spatial_phase_2
+
+define loopcounter lds = {$PVM_DummyScans}
+define list<frequency> freqTx = {$ACQ_O1_list}
+define list<frequency> freqRx = {$ACQ_O1B_list}
+define delay denab
+"denab = d6 - de"
+
+
+INIT_DEVICES
+
+grad_zero_for_gs <r2d, r3d>
+
+
+;----------------------- preparation modules -----------------------
+             subr DwiInit()
+stph,   0u
+             subr TriggerPhase()
+start,  0u
+
+DiffL,       UPDATE_DYN_PARS_30u
+       10u        freqRx(receive):f1
+             subr TriggerSlice()
+             subr FovSat()
+             subr FatSup()
+
+;------------------------ slice selection --------------------------
+        d1        grad_ramp{0, 0, g0}    freqTx:f1
+       (p0:sp0    ph0):f1
+        d4        grad_off
+
+;------------------------- slice rephase ---------------------------
+        d2        grad_ramp{0, 0, g1}
+        d3        grad_off                        ; TE filling
+
+;---------------------- diffusion preparation ----------------------
+             subr DwiPrep(ph1)
+
+;-------------------- read on + phase encoding ---------------------
+        d5        grad_ramp{g2, r2d*g3, r3d*g4} ; 2nd and 3rd dims
+        d4        grad_off
+     denab        grad_ramp{g5, 0, 0}
+                  ADC_INIT_(job0, ph0, ph1)
+
+  AQ_(job0)       ADC_START_(job0)
+
+        d5        grad_ramp{g5, r2d*g6, r3d*g7} ; 2nd and 3rd dims
+        d7        grad_off
+        d8        ADC_END_(job0)
+
+;--------------------------- slice loop ----------------------------
+        0u        grad_matrix.inc
+        0u        freqTx.inc
+        0u        freqRx.inc
+        d0        DwFl0.inc
+
+     lo to start times NSLICES
+        0u              grad_matrix.res
+
+
+;--------------------------- dummy loop ----------------------------
+                  "lds=lds-1"
+   if "lds>=0" goto start
+
+;------------------------ diff weigth loop -------------------------
+             subr DwiLoop(DiffL)
+
+;------------------------- averaging loop --------------------------
+     lo to start times NA
+
+;----------------------------- 2d-loop -----------------------------
+        0u        r2d.inc
+     lo to stph times l0
+
+        0u        r2d.res
+
+;----------------------------- 3d-loop -----------------------------
+        0u        r3d.inc
+     lo to stph times l1
+
+;---------------------- motion averaging loop ----------------------
+        0u
+     lo to start times NAE
+
+;------------------------- repetition loop -------------------------
+        0u
+     lo to stph times NR
+
+SETUP_GOTO(stph)
+
+exit
+
+ph0 = 0 2
+ph1 = 1

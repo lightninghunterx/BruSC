@@ -1,0 +1,163 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2016
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+
+pargroup{ 
+  PVM_EpiAutoGhost;
+  PVM_EpiMaxOrder;
+  PVM_EpiDynCorr;
+  PVM_EpiDoubleShotAdj;
+  PVM_EpiAcqDelayTrim;
+  PVM_EpiBlipsOff;
+  PVM_EpiBlipAsym;
+  PVM_EpiReadAsym; 
+  PVM_EpiReadDephTrim;
+  PVM_EpiEchoTimeShifting;
+  PVM_EpiEchoShiftA;
+  PVM_EpiEchoShiftB;
+  PVM_EpiDriftCorr;
+  PVM_EpiGrappaSegAdj;
+  PVM_EpiGrappaThresh;
+  PVM_EpiUseNav;
+  PVM_EpiUseDyn;
+}
+attributes
+{
+  display_name "EPI Corrections";
+} EPI_Corrections;
+
+
+pargroup
+{
+  /* ----- effective matrix size ------------*/
+  PVM_EpiMatrix;
+
+  /* ----- spacing and eff bw and actual bw------ */
+  PVM_EpiEchoSpacing;
+  PVM_EpiEffBandwidth;
+  PVM_EpiBandwidth;
+
+  /* ---- delays ------- */
+  PVM_EpiDephaseTime;
+  PVM_EpiRefDephaseTime;  
+  PVM_EpiDephaseRampTime;
+  PVM_EpiPlateau;
+  PVM_EpiAcqDelay;
+  PVM_EpiInterTime;
+  PVM_EpiSwitchTime;
+ 
+  /* ----- gradient amplitudes ----- */
+  
+  PVM_EpiReadDephGrad;
+  PVM_EpiReadRefDephGrad;
+  PVM_EpiReadOddGrad;
+  PVM_EpiReadEvenGrad;
+  PVM_EpiPhaseDephGrad;
+  PVM_EpiPhaseRephGrad;
+  PVM_EpiBlipOddGrad;
+  PVM_EpiBlipEvenGrad;
+  PVM_EpiPhaseEncGrad;
+  PVM_EpiPhaseRewGrad;
+  PVM_EpiPhase3DGrad;
+  
+  /* counters */
+  PVM_EpiNEchoes;
+  PVM_EpiEchoCounter;
+  
+  /* integrals */
+  PVM_EpiRampUpIntegral;
+  PVM_EpiRampDownIntegral;
+  PVM_EpiBlipIntegral;
+  PVM_EpiSlopeFactor;
+  PVM_EpiSlewRate;  
+
+  /* navigator filter info */
+  PVM_EpiNSamplesPerScan;
+  PVM_EpiPrefixNavDur;
+  PVM_EpiPrefixNavSize;
+
+  /* adjustments */
+  PVM_EpiAdjustMode;
+  PVM_EpiReadCenter;
+  PVM_EpiPhaseCorrection;
+  PVM_EpiGrappaCoefficients;
+
+}
+attributes
+{
+  display_name "EPI Details";
+} EPI_Details;
+
+
+
+pargroup
+{ 
+  PVM_EpiTrajAdjYesNo;
+  PVM_EpiTrajAdjAutomatic;
+  PVM_EpiTrajAdjMeasured;
+  PVM_EpiTrajAdjkx;
+  PVM_EpiTrajAdjb0;
+  PVM_EpiTrajAdjReadvec;
+  PVM_EpiTrajAdjFov0;
+  PVM_EpiTrajAdjMatrix0;
+  PVM_EpiTrajAdjBw;
+  PVM_EpiTrajAdjComp;
+  PVM_EpiTrajAdjRampform;
+  PVM_EpiTrajAdjRampmode;
+  PVM_EpiTrajAdjRamptime;
+  PVM_EpiTrajAdjDistRatio;
+}
+attributes
+{
+  display_name "EPI Trajectory";
+} EPI_Trajectory;
+
+/* definition of the EPI pargroup */
+
+pargroup
+{
+  PVM_EpiPrefixNavYes;
+  PVM_EpiSingleNav;
+  PVM_EpiCombine;
+  PVM_EpiEchoMode;
+  PVM_EpiGradSync;
+  PVM_EpiTempGridding;
+  PVM_EpiRampMode;
+  PVM_EpiRampForm;
+  PVM_EpiRampComp;
+  PVM_EpiNShots;
+  PVM_EpiEchoPosition;
+  PVM_EpiRampTime;
+  PVM_EpiSlope;  
+  PVM_EpiEffSlope;
+  PVM_EpiBlipTime;
+  PVM_EpiEchoDelay;
+  PVM_EpiModuleTime;
+  PVM_EpiGradDwellTime;
+ 
+  EPI_Corrections;
+
+  EPI_Details;
+
+  EPI_Trajectory;
+
+}
+attributes
+{
+  display_name "EPI";
+} EPI_Parameters;
+
+
+
+

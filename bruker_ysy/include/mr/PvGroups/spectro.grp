@@ -1,0 +1,33 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 2016
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+/****************************************************************/
+/*	PARAMETER GROUPS					*/
+/****************************************************************/
+pargroup
+{
+    PVM_SpecDimEnum;
+    PVM_SpecAcquisitionTime;
+    PVM_SpecOffsetHz;
+    PVM_SpecOffsetppm;
+    PVM_SpecMatrix;
+    PVM_SpecSWH;
+    PVM_SpecSW;
+    PVM_SpecDwellTime;
+    PVM_SpecNomRes;
+} Spectroscopy;
+
+/****************************************************************/
+/*	E N D   O F   F I L E					*/
+/****************************************************************/

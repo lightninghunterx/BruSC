@@ -1,0 +1,15 @@
+#
+# Copyright (c) 2020
+# Bruker BioSpin MRI GmbH
+# D-76275 Ettlingen, Germany
+#
+# All Rights Reserved
+#
+
+# -------------------------------------------------------------
+# Rule to print makefile variables
+# -------------------------------------------------------------
+
+print-% : ; $(info $* = $($*)) @true
+
+include Makefile

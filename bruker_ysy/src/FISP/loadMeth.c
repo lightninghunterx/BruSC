@@ -1,0 +1,71 @@
+/****************************************************************
+ *
+ * $Source$
+ *
+ * Copyright (c) 1999-2010
+ * Bruker BioSpin MRI GmbH
+ * D-76275 Ettlingen, Germany
+ *
+ * All Rights Reserved
+ *
+ *
+ * $Id$
+ *
+ ****************************************************************/
+
+static const char resid[] = "$Id$ (C) 1999-2010 Bruker BioSpin MRI GmbH";
+
+#define DEBUG		0
+#define DB_MODULE	1
+#define DB_LINE_NR	1
+
+
+#include "method.h"
+
+
+/*:=MPB=:=======================================================*
+ *
+ * Global Function: loadMeth
+ *
+ * Description: This procedure is automatically called in
+ *	response to a method file for this method being read.
+ *
+ * Error History: 
+ *
+ * Interface:							*/
+
+void loadMeth
+(
+  const char *	className
+)
+     
+/*:=MPE=:=======================================================*/
+{
+  DB_MSG(( "Entering FISP:loadMeth( %s )", className ));
+
+
+  if (0 != className)
+  {
+      if (0 == strcmp( className, "MethodClass"))
+      {
+        MRT_CheckOperationMode();
+	initMeth();
+      }
+      else if (0 == strcmp(className, "MethodRecoGroup"))
+      {
+          DB_MSG(("...responding to loadMeth call for MethodRecoGroup."));
+      }
+  }
+  else
+  {
+    DB_MSG(( "...ignoring loadMeth call - I don't know this class" ));
+  }
+  
+  DB_MSG(( "Exiting FISP:loadMeth( %s )", className ));
+}
+
+/****************************************************************/
+/*		E N D   O F   F I L E				*/
+/****************************************************************/
+
+
